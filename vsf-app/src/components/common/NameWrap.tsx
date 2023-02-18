@@ -18,7 +18,7 @@ export const NameWrap: React.FC<NameWrapProp> = ({
           {title}
         </Box>
         <Spacer />
-        {error && <Box>{error}</Box>}
+        {error && <Box color="red.500">{error}</Box>}
       </HStack>
       <Box w="100%">{children}</Box>
     </Flex>

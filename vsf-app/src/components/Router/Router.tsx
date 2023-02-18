@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { DashboardWrapper } from "../Dashboard/DashboardWrapper";
-import { Home } from "../Home/Home";
+import { HomeComponent } from "../Home";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 export const Router: React.FC = () => {
@@ -11,7 +11,7 @@ export const Router: React.FC = () => {
         path={"/"}
         element={
           <DashboardWrapper>
-            <Home />
+            <HomeComponent />
           </DashboardWrapper>
         }
       />

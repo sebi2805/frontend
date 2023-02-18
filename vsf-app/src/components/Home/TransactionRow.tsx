@@ -18,7 +18,7 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
         direction={["column", "row"]}
         w="100%"
         p={2}
-        pb={0}
+        pb={[2, 0]}
         align={["center", "flex-start"]}
         justify={"space-between"}
         border="2px solid"
@@ -38,7 +38,17 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
           ></Icon>
         </NameWrap>
         <NameWrap
-          pl={2}
+          ml={[0, 2]}
+          direction={["row", "column"]}
+          title="Name"
+          w={["80%", "50%"]}
+          fontWeight={"bold"}
+        >
+          <Text textAlign={["end", "start"]} pr={2}>
+            {transaction.name}
+          </Text>
+        </NameWrap>
+        <NameWrap
           direction={["row", "column"]}
           title="Date"
           w="80%"
@@ -51,11 +61,11 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
         <NameWrap
           direction={["row", "column"]}
           title="Type"
-          w="80%"
+          w={["80%", "50%"]}
           fontWeight={"bold"}
         >
           <Text textAlign={["end", "start"]} pr={2}>
-            {DepositType[transaction.type]}
+            {DepositType[transaction.type ?? 0]}
           </Text>
         </NameWrap>
         <NameWrap

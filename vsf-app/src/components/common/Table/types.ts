@@ -9,41 +9,52 @@ export const DepositType: RecordType = {
   20: "Cash",
 };
 export interface TransactionInterface {
-  id: string;
-  amount: number;
-  type: number;
-  deposit: number;
-  currentAmountBank: number;
-  currentAmountCash: number;
+  id?: string;
+  name: string;
+  description?: string;
+  amount: string;
+  type: number | null;
+  deposit: number | null;
+  currentAmountBank: string;
+  currentAmountCash: string;
   date: string;
+  frequency?: number;
+  startDate?: string;
+  isRecurent?: boolean;
 }
 export const object: TransactionInterface[] = [
   {
     id: "1",
-    amount: 100,
+    name: "test",
+    description: "test",
+    amount: "100",
     type: 10,
     deposit: 10,
-    currentAmountBank: 100,
-    currentAmountCash: 0,
+    currentAmountBank: "100",
+    currentAmountCash: "0",
     date: "2021-01-01",
   },
   {
     id: "2",
-    amount: 100,
+    name: "test",
+    amount: "100",
     type: 20,
     deposit: 10,
 
-    currentAmountBank: 200,
-    currentAmountCash: 0,
+    description: "test",
+    currentAmountBank: "200",
+    currentAmountCash: "0",
     date: "2021-01-02",
   },
   {
+    name: "test",
+    description: "test",
     id: "3",
-    amount: 100,
+    amount: "100",
     type: 10,
     deposit: 20,
-    currentAmountBank: 300,
-    currentAmountCash: 0,
+    currentAmountBank: "300",
+    currentAmountCash: "0",
     date: "2021-01-03",
   },
 ];

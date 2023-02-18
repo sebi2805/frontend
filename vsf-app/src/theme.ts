@@ -1,12 +1,28 @@
 import { extendTheme } from "@chakra-ui/react";
+import { switchAnatomy } from "@chakra-ui/anatomy";
+import { createMultiStyleConfigHelpers } from "@chakra-ui/react";
 
+const { definePartsStyle, defineMultiStyleConfig } =
+  createMultiStyleConfigHelpers(switchAnatomy.keys);
+
+const baseStyle = definePartsStyle({
+  track: {
+    bg: "purple.100",
+    _checked: {
+      bg: "purple.500",
+    },
+  },
+});
+
+export const switchTheme = defineMultiStyleConfig({ baseStyle });
 export const theme = extendTheme({
   initialColorMode: "dark",
   useSystemColorMode: false,
   fonts: {
     light: "'Kalam', cursive",
-    night: "'Audiowide', cursive",
+    night: "'Orbitron', sans-serif",
   },
+  components: { Switch: switchTheme },
   styles: {
     global: (props: any) => ({
       "html, body": {
