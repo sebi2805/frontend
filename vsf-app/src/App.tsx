@@ -1,21 +1,11 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import * as React from "react";
-import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from "@chakra-ui/react";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
-import { Logo } from "./Logo";
-import { UserContextinterface } from "./utils/types";
-import { ErrorContextInterface } from "./utils/ErrorService/types";
 import { Router } from "./components/Router/Router";
-import { useAuth } from "./utils/useAuth";
+import { theme } from "./theme";
+import { ErrorContextInterface } from "./utils/ErrorService/types";
 import { useError } from "./utils/ErrorService/useError";
+import { UserContextinterface } from "./utils/types";
+import { useAuth } from "./utils/useAuth";
 
 export const UserContext = React.createContext<UserContextinterface>(
   {} as UserContextinterface

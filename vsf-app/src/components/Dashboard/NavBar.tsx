@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-export const NavBarHeight: number = 28;
+export const NavBarHeight: number = 16;
 export const NavBar: React.FC = () => {
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
@@ -25,6 +25,7 @@ export const NavBar: React.FC = () => {
         onClick={() => handleClick(path)}
         _hover={{ color: hoverColor, textDecoration: "underline" }}
         fontSize={20}
+        pr={4}
       >
         {text}
       </Button>
@@ -35,16 +36,15 @@ export const NavBar: React.FC = () => {
     <HStack
       w="100%"
       h={NavBarHeight}
-      bg={useColorModeValue("lightGreen.100", "purple.500")}
       fontWeight="bold"
       borderBottom={"1px solid"}
-      borderColor={useColorModeValue("darkGreen.200", "purple.10")}
+      bgGradient={useColorModeValue(
+        "linear(to-r, lightGreen.200, lightGreen.500)",
+        "linear(to-r, purple.500, purple.200)"
+      )}
+      borderColor={useColorModeValue("darkGreen.200", "purple.400")}
     >
-      <Box
-        cursor={"pointer"}
-        display={["flex", "none"]}
-        onClick={() => handleClick("/home")}
-      >
+      <Box cursor={"pointer"} onClick={() => handleClick("/home")}>
         <Image src={image} h={16} w={16} />
       </Box>
       <Box display={["none", "flex"]} w={4}></Box>

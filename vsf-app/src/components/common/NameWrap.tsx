@@ -14,9 +14,11 @@ export const NameWrap: React.FC<NameWrapProp> = ({
   return (
     <Flex w="fit-content" direction={"column"} {...others}>
       <HStack>
-        <Box>{title}</Box>
+        <Box w="fit-content" whiteSpace={"nowrap"}>
+          {title}
+        </Box>
         <Spacer />
-        {error && <Box color="red">{error}</Box>}
+        {error && <Box>{error}</Box>}
       </HStack>
       <Box w="100%">{children}</Box>
     </Flex>

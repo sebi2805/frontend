@@ -4,13 +4,15 @@ export const theme = extendTheme({
   initialColorMode: "dark",
   useSystemColorMode: false,
   fonts: {
-    body: "Montserrat",
+    light: "'Kalam', cursive",
+    night: "'Audiowide', cursive",
   },
   styles: {
     global: (props: any) => ({
       "html, body": {
-        bg: "darkThemeGrey.600",
-        color: props.colorMode === "dark" ? "darkThemeGrey.100" : "black",
+        bg: props.colorMode === "dark" ? "purple.1" : "lightGreen.10",
+        color: props.colorMode === "dark" ? "purple.500" : "darkGreen.900",
+        fontFamily: props.colorMode === "dark" ? "night" : "light",
       },
 
       "*": {
@@ -49,6 +51,7 @@ export const theme = extendTheme({
   },
   colors: {
     purple: {
+      1: "#FEFDFD",
       10: "#E7D7DB",
       100: "#D3B7C5",
       200: "#BF97B5",
@@ -94,6 +97,7 @@ export const theme = extendTheme({
       900: "#402D40",
     },
     lightGreen: {
+      1: "#FCFFFA",
       10: "#F0FBE9",
       100: "#E3F8D5",
       200: "#D6F5C0",
@@ -114,6 +118,18 @@ export const theme = extendTheme({
       600: "#282828",
       700: "#181818",
       800: "#121212",
+    },
+    red: {
+      10: "#FFF0F5",
+      100: "#FFC8DC",
+      200: "#FFA0C4",
+      300: "#FE78AB",
+      400: "#F95093",
+      500: "#F2287C",
+      600: "#E90064",
+      700: "#D0002A",
+      800: "#B40000",
+      900: "#8E0800",
     },
   },
 });
