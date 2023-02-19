@@ -9,10 +9,12 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../App";
 export const NavBarHeight: number = 16;
 export const NavBar: React.FC = () => {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
   const image = useColorModeValue("GreenLogo.png", "PurpleLogo.png");
@@ -24,14 +26,14 @@ export const NavBar: React.FC = () => {
         variant={"link"}
         onClick={() => handleClick(path)}
         _hover={{ color: hoverColor, textDecoration: "underline" }}
-        fontSize={20}
+        fontSize={[16, 20]}
         pr={4}
       >
         {text}
       </Button>
     );
   };
-
+  console.log(user);
   return (
     <HStack
       w="100%"
@@ -48,9 +50,18 @@ export const NavBar: React.FC = () => {
         <Image src={image} h={16} w={16} />
       </Box>
       <Box display={["none", "flex"]} w={4}></Box>
-      <NavBarItem path="/home" text="Home" />
-      <NavBarItem path="/history" text="History" />
-      <NavBarItem path="/statistics" text="Statistics" />
+      {user ? (
+        <>
+          <NavBarItem path="/home" text="Home" />
+          <NavBarItem path="/history" text="History" />
+          <NavBarItem path="/statistics" text="Statistics" />
+        </>
+      ) : (
+        <>
+          <NavBarItem path="/login" text="Login" />
+          <NavBarItem path="/register" text="Register" />
+        </>
+      )}
 
       <Spacer />
       <Box onClick={toggleColorMode}>

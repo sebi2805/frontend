@@ -8,6 +8,7 @@ export const authorise = () => {
   return {
     headers: {
       Authorization: `Bearer ${getAccesToken()}`,
+      accept: "text/plain",
     },
   };
 };
@@ -24,7 +25,8 @@ const errorInterceptor = (val: AxiosInstance) => {
       return res;
     },
     (err) => {
-      if (err.response.status === 401 || err.response.status === 403) {
+      console.log(err);
+      if (err.response?.status === 401 || err.response?.status === 403) {
         localStorage.removeItem("accesToken");
         localStorage.setItem("USER", "USER_NOT_FOUND");
         window.location.reload();

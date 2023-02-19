@@ -1,17 +1,32 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { DashboardWrapper } from "../Dashboard/DashboardWrapper";
+import { Default } from "../DefaultPages/Default";
+import { NotFoundPage } from "../DefaultPages/NotFoundPage";
 import { HomeComponent } from "../Home";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
+import { ProtectedRoute } from "./ProtectedRoute";
+
 export const Router: React.FC = () => {
   return (
     <Routes>
       <Route
-        path={"/"}
+        path="/"
         element={
           <DashboardWrapper>
-            <HomeComponent />
+            <Default />
+          </DashboardWrapper>
+        }
+      />
+
+      <Route
+        path={"/home"}
+        element={
+          <DashboardWrapper>
+            <ProtectedRoute>
+              <HomeComponent />
+            </ProtectedRoute>
           </DashboardWrapper>
         }
       />
@@ -28,6 +43,15 @@ export const Router: React.FC = () => {
         element={
           <DashboardWrapper>
             <Register />
+          </DashboardWrapper>
+        }
+      />
+
+      <Route
+        path="*"
+        element={
+          <DashboardWrapper>
+            <NotFoundPage />
           </DashboardWrapper>
         }
       />

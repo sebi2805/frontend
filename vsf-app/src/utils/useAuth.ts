@@ -4,27 +4,20 @@ import { ErrorContext } from "../App";
 import { UserContextinterface, UserInterface } from "./types";
 
 export const useAuth = (): UserContextinterface => {
-  const [user, setUser] = useState<UserInterface | null>({
-    firstName: "Sebastian",
-    lastName: "Virtopeanu",
-    bank: 1000,
-    cash: 1000,
-    userRole: "admin",
-    id: "1",
-  });
+  const [user, setUser] = useState<UserInterface | null>(null);
 
   const { createError, createToast } = useContext(ErrorContext);
   const login = async (username: string, password: string) => {
     await apiClient
-      .get(
-        `/authentication/login-user?username=${username}&password=${password}`
-      )
+      .get(`/login-user?username=${username}&password=${password}`)
       .then((res) => {
         setUser(res.data);
         localStorage.setItem("clientJWT", res.data.clientJWT);
+        createToast("Login successful");
       })
       .catch((err) => {
-        createError(err.response.data);
+        console.log(err);
+        // createError(err.response.data);
       });
   };
   const logout = async () => {
