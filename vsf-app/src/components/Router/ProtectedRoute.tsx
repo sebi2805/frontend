@@ -7,7 +7,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("accesToken")) {
+    if (!localStorage.getItem("clientJWT")) {
       navigate("/login");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -11,7 +11,7 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { NameWrap } from "../common/NameWrap";
 import { VSFButton } from "../common/VSFButton";
 import { VSFInput } from "../common/VSFInput";

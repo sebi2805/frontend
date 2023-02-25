@@ -73,15 +73,18 @@ export const useRegister = (): RegisterContextInterface => {
           password: passwords.password,
         })
         .then(() => {
-          navigator("/login");
+          createToast("Account created successfully");
+          setTimeout(() => {
+            navigator("/home");
+          }, 1000);
         })
         .catch((err) => {
           if (err.response.data.message.includes("USER_ALREADY_EXISTS"))
             setError({ ...error, username: "Username already exists" });
           createError(err.response.data);
         });
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
   const handleLogin = () => {
     navigator("/login");
@@ -99,7 +102,6 @@ export const useRegister = (): RegisterContextInterface => {
     });
   };
   const showConfirmPassword = () => {
-    console.log("sebi");
     setShowPasswords({
       ...showPasswords,
       showConfirmPassword: !showPasswords.showConfirmPassword,

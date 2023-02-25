@@ -8,4 +8,5 @@ export const ResponseDictionary: ErrorDictionary = {
   NO_JOB: "No job found with this id",
   NO_USER_HISTORY: "No user history found with this id",
   NO_ENTITY: "No entity found with this id",
+  EMPTY_FIELD: "Please fill in all fields",
 };

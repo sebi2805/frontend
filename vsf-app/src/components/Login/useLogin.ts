@@ -1,6 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ErrorContext } from "../../App";
+import { isEmpty } from "../../utils/helpers";
 import { useAuth } from "../../utils/useAuth";
 import { ErrorLoginForm, LoginContextInterface } from "./types";
 
@@ -9,7 +10,7 @@ const defaultError: ErrorLoginForm = {
   password: "",
 };
 export const useLogin = (): LoginContextInterface => {
-  const { login } = useAuth();
+  const { login, loginJWT } = useAuth();
   const { createError, createToast } = useContext(ErrorContext);
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
@@ -24,11 +25,27 @@ export const useLogin = (): LoginContextInterface => {
     else setPasswordToShow(password.replace(/./g, "*"));
   };
 
+  const createErrorObject = () => {
+    var error: ErrorLoginForm = {
+      username: isEmpty(username),
+      password: isEmpty(password),
+    };
+    return error;
+  };
+  const checkError = (error: ErrorLoginForm) => {
+    if (error.username || error.password) {
+      createError(["EMPTY_FIELD"]);
+      return true;
+    }
+    return false;
+  };
   const handleLogin = async () => {
     try {
       setIsLoading(true);
+      var error = createErrorObject();
+      setError(error);
+      if (checkError(error)) return;
       await login(username, password);
-      navigate("/register");
     } finally {
       setIsLoading(false);
     }
@@ -39,6 +56,7 @@ export const useLogin = (): LoginContextInterface => {
   const handleForgotPassword = async () => {
     navigate("/forgot-password");
   };
+
   return {
     handleForgotPassword,
     handleRegister,

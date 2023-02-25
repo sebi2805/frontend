@@ -21,7 +21,7 @@ export const App = () => {
     <ChakraProvider theme={theme}>
       <ErrorContext.Provider value={errorHook}>
         <UserContext.Provider value={userHooK}>
-          <Router />
+          {userHooK.didMount && <Router />}
         </UserContext.Provider>
       </ErrorContext.Provider>
     </ChakraProvider>

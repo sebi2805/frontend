@@ -10,7 +10,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import moment from "moment";
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 import { HomeContext } from ".";
 import { UserContext } from "../../App";
 
@@ -33,6 +33,7 @@ export const Home: React.FC = () => {
     error,
     handleDataChange,
   } = useContext(HomeContext);
+
   return (
     <>
       <TransactionModal />
@@ -86,8 +87,10 @@ export const Home: React.FC = () => {
             columnGap={2}
             px={[0, 20]}
           >
-            {object.map((item) => (
-              <TransactionRow transaction={item} key={item.id} />
+            {transactions.map((item) => (
+              <Fragment key={item.id}>
+                <TransactionRow transaction={item} key={item.id} />
+              </Fragment>
             ))}
           </Grid>
         </VStack>

@@ -162,7 +162,7 @@ export const TransactionModal: React.FC = ({}) => {
           </ModalBody>
           <ModalFooter bg={useColorModeValue("lightGreen.100", "purple.1")}>
             <Flex w="100%" justify="flex-end">
-              <VSFButton onClick={submit}>
+              <VSFButton onClick={submit} isLoading={isSubmitting}>
                 {isEdit ? "Update" : "Submit"}
               </VSFButton>
             </Flex>
