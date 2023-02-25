@@ -1,11 +1,5 @@
+import { Box, Input, InputProps } from "@chakra-ui/react";
 import React from "react";
-import {
-  Box,
-  Input,
-  InputProps,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
 
 export interface VSFInputProps extends InputProps {
   error?: string;
@@ -15,7 +9,7 @@ export interface VSFInputProps extends InputProps {
 
 export const VSFInput: React.FC<VSFInputProps> = (props) => {
   const { error, value, ...others } = props;
-  const colorFocusBorder = useColorModeValue("lightGreen.800", "purple.400");
+  const colorFocusBorder = "purple.400";
 
   return (
     <Box w="100%">

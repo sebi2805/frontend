@@ -1,4 +1,4 @@
-import { Button, ButtonProps, useColorModeValue } from "@chakra-ui/react";
+import { Button, ButtonProps } from "@chakra-ui/react";
 import React from "react";
 interface VSFButtonProps extends ButtonProps {
   onClick: () => void;
@@ -14,8 +14,8 @@ export const VSFButton: React.FC<VSFButtonProps> = ({
       onClick={() => {
         onClick();
       }}
-      colorScheme={useColorModeValue("lightGreen", "purple")}
-      bg={useColorModeValue("lightGreen.500", "purple.500")}
+      colorScheme={"purple"}
+      bg={"purple.500"}
       color="white"
       {...others}
     >

@@ -8,10 +8,9 @@ import {
   Image,
   InputGroup,
   InputRightElement,
-  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 import { NameWrap } from "../common/NameWrap";
 import { VSFButton } from "../common/VSFButton";
 import { VSFInput } from "../common/VSFInput";
@@ -49,7 +48,7 @@ export const Login: React.FC = () => {
     >
       <Box minW="fit-content" position={["absolute", "initial"]} top={0}>
         <Image
-          src={useColorModeValue("LoginBannerGreen.jpg", "BannerPurple.png")}
+          src={"BannerPurple.png"}
           h={`calc(100vh - ${NavBarHeight + 49}px)`}
         />
       </Box>
@@ -65,7 +64,7 @@ export const Login: React.FC = () => {
           bg="white"
           align="center"
           border="2px solid"
-          borderColor={useColorModeValue("lightGreen.100", "purple.400")}
+          borderColor={"purple.400"}
           borderRadius={4}
           p={4}
         >
@@ -111,7 +110,7 @@ export const Login: React.FC = () => {
               variant={"link"}
               fontSize={12}
               onClick={handleForgotPassword}
-              color={useColorModeValue("lightGreen.100", "purple.100")}
+              color={"purple.100"}
             >
               {" "}
               here.{" "}
@@ -124,7 +123,7 @@ export const Login: React.FC = () => {
               onClick={handleRegister}
               variant={"link"}
               fontSize={12}
-              color={useColorModeValue("lightGreen.100", "purple.100")}
+              color={"purple.100"}
             >
               {" "}
               here.{" "}

@@ -1,5 +1,4 @@
 import {
-  Box,
   Flex,
   HStack,
   Modal,
@@ -11,7 +10,6 @@ import {
   ModalOverlay,
   Spacer,
   Switch,
-  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import React, { useContext, useMemo } from "react";
@@ -80,7 +78,7 @@ export const TransactionModal: React.FC = ({}) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent bg={"white"}>
-          <ModalHeader bg={useColorModeValue("lightGreen.100", "purple.1")}>
+          <ModalHeader bg={"purple.1"}>
             {isEdit ? "Edit transaction" : "Add transaction"}
           </ModalHeader>
           <ModalCloseButton
@@ -160,7 +158,7 @@ export const TransactionModal: React.FC = ({}) => {
               </VStack>
             )}
           </ModalBody>
-          <ModalFooter bg={useColorModeValue("lightGreen.100", "purple.1")}>
+          <ModalFooter bg={"purple.1"}>
             <Flex w="100%" justify="flex-end">
               <VSFButton onClick={submit} isLoading={isSubmitting}>
                 {isEdit ? "Update" : "Submit"}

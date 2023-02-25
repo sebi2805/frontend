@@ -1,11 +1,5 @@
+import { Box, Textarea, TextareaProps } from "@chakra-ui/react";
 import React from "react";
-import {
-  Box,
-  Textarea,
-  TextareaProps,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
 
 interface VSFTextAreaProps extends Omit<TextareaProps, "onChange"> {
   error?: string;
@@ -19,7 +13,7 @@ export const VSFTextArea: React.FC<VSFTextAreaProps> = (props) => {
   const changeEventHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
   };
-  const colorFocusBorder = useColorModeValue("lightGreen.800", "purple.400");
+  const colorFocusBorder = "purple.400";
 
   return (
     <Box w="100%" h="100%">

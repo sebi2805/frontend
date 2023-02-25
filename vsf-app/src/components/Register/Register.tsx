@@ -8,7 +8,6 @@ import {
   Image,
   InputGroup,
   InputRightElement,
-  useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
 import React from "react";
@@ -89,7 +88,7 @@ export const Register: React.FC = () => {
     <HStack maxH={`calc(100vh - ${NavBarHeight + 10}px)`} w="100%" spacing={0}>
       <Box minW="fit-content" position={["absolute", "initial"]} top={0}>
         <Image
-          src={useColorModeValue("LoginBannerGreen.jpg", "BannerPurple.png")}
+          src={"BannerPurple.png"}
           h={`calc(100vh - ${NavBarHeight + 49}px)`}
         />
       </Box>
@@ -108,7 +107,7 @@ export const Register: React.FC = () => {
           align="center"
           position={"relative"}
           border="2px solid"
-          borderColor={useColorModeValue("lightGreen.100", "purple.400")}
+          borderColor={"purple.400"}
           borderRadius={4}
           // p={4}
         >
@@ -221,7 +220,7 @@ export const Register: React.FC = () => {
                 onClick={handleLogin}
                 variant={"link"}
                 fontSize={12}
-                color={useColorModeValue("lightGreen.100", "purple.100")}
+                color={"purple.100"}
               >
                 {" "}
                 here.{" "}

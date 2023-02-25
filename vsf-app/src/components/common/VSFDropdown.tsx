@@ -1,10 +1,4 @@
-import {
-  Box,
-  Select,
-  SelectProps,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Select, SelectProps } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { theme } from "../../theme";
 export interface SelectOptionsInterface {
@@ -35,10 +29,10 @@ export const VSFDropdown: React.FC<VSFSelectProps> = (props) => {
   } = props;
   const [selectValue, setSelectValue] = useState<string>(value);
 
-  const colorFocusBorder = useColorModeValue("lightGreen.800", "purple.400");
+  const colorFocusBorder = "purple.400";
 
-  const bgOptionColor = useColorModeValue("white", `${theme.colors.grey[100]}`);
-  const colorBackGround = useColorModeValue("white", "grey.100");
+  const bgOptionColor = `${theme.colors.grey[100]}`;
+  const colorBackGround = "grey.100";
   const [didMount, setDidMount] = useState<boolean>(false);
 
   const changeEventHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
