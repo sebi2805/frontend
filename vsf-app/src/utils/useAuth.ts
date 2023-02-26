@@ -12,7 +12,7 @@ export const useAuth = (): UserContextinterface => {
   const { createError, createToast } = useContext(ErrorContext);
   const login = async (username: string, password: string) => {
     await apiClient
-      .get(`/login-user?username=${username}&password=${password}`)
+      .get(`/api/login-user?username=${username}&password=${password}`)
       .then((res) => {
         setUser(res.data);
         localStorage.setItem("clientJWT", res.data.clientJWT);
@@ -37,7 +37,7 @@ export const useAuth = (): UserContextinterface => {
   };
   const loginJWT = async (clientJWT: string) => {
     await apiClient
-      .get(`/login-by-jwt?clientJWT=${clientJWT}`)
+      .get(`/api/login-by-jwt?clientJWT=${clientJWT}`)
       .then((res) => {
         setUser(res.data);
         setDidMount(true);

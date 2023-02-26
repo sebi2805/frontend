@@ -17,6 +17,7 @@ export const NavBar: React.FC = () => {
         onClick={() => handleClick(path)}
         _hover={{ color: hoverColor, textDecoration: "underline" }}
         fontSize={[16, 20]}
+        color="purple.1"
         pr={4}
       >
         {text}

@@ -66,7 +66,7 @@ export const useRegister = (): RegisterContextInterface => {
       setError(error);
     } else {
       await apiClient
-        .post("/register", {
+        .post("/api/register", {
           firstName: firstName,
           lastName: lastName,
           username: username,

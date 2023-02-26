@@ -26,14 +26,14 @@ export const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       "html, body": {
-        bg: props.colorMode === "dark" ? "purple.1" : "lightGreen.10",
-        color: props.colorMode === "dark" ? "purple.500" : "darkGreen.900",
-        fontFamily: props.colorMode === "dark" ? "night" : "light",
+        bg: "purple.1",
+        color: "purple.500",
+        fontFamily: "night",
       },
 
       "*": {
         ".slick-prev:before,.slick-next:before": {
-          color: "blue.400",
+          color: "purple.400",
           margin: "5px",
         },
 
@@ -46,8 +46,7 @@ export const theme = extendTheme({
           cursor: "pointer",
         },
         "::placeholder": {
-          color:
-            props.colorMode === "dark" ? "darkThemeGrey.700" : "neutralGrey",
+          color: "darkThemeGrey.700",
         },
         "&::-webkit-scrollbar": {
           width: "5px",
@@ -55,11 +54,11 @@ export const theme = extendTheme({
         },
         "&::-webkit-scrollbar-track": {
           background: "white",
-          border: `1px solid ${"blue.400"}`,
+          border: `1px solid ${"purple.400"}`,
           borderRadius: "10px",
         },
         "&::-webkit-scrollbar-thumb": {
-          background: "blue.400",
+          background: "purple.400",
           borderRadius: "10px",
         },
       },

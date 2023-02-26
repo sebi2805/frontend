@@ -35,7 +35,11 @@ export const Login: React.FC = () => {
     setUsername(e.target.value);
   };
   const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(password + e.target.value.slice(-1));
+    setPassword(
+      e.target.value.length > password.length
+        ? password + e.target.value.slice(-1)
+        : password.slice(0, -1)
+    );
     setPasswordToShow(e.target.value.replace(/./g, "*"));
   };
 
