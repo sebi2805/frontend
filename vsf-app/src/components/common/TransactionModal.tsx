@@ -58,6 +58,15 @@ export const TransactionModal: React.FC = ({}) => {
     ],
     []
   );
+  const frequencyOptions: SelectOptionsInterface[] = useMemo(
+    () => [
+      { value: "10", display: "Daily" },
+      { value: "20", display: "Weekly" },
+      { value: "30", display: "Monthly" },
+      { value: "40", display: "Yearly" },
+    ],
+    []
+  );
   const handleTypeChange = (value: string) => {
     handleDataChange({ type: parseInt(value) });
   };
@@ -73,6 +82,10 @@ export const TransactionModal: React.FC = ({}) => {
       amount: isEmpty(e.target.value) || isNumeric(e.target.value),
     });
   };
+  const handleFrequencyChange = (value: string) => {
+    handleDataChange({ frequency: parseInt(value) });
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -153,6 +166,15 @@ export const TransactionModal: React.FC = ({}) => {
                   <VSFDatePicker
                     value={data.date}
                     onChange={handleDateChange}
+                  />
+                </NameWrap>
+                <NameWrap title="Frequency" w="100%" error={error.frequency}>
+                  <VSFDropdown
+                    value={data.frequency?.toString() || ""}
+                    onChange={handleFrequencyChange}
+                    options={frequencyOptions}
+                    error={error.frequency}
+                    placeholder="Select frequency type"
                   />
                 </NameWrap>
               </VStack>

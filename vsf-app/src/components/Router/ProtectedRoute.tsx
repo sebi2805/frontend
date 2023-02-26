@@ -8,7 +8,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
   useEffect(() => {
     if (!localStorage.getItem("clientJWT")) {
-      navigate("/login");
+      // navigate("/login");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

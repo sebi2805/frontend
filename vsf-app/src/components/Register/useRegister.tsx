@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiClient } from "../../apiClient";
 import { ErrorContext } from "../../App";
@@ -38,7 +38,13 @@ export const useRegister = (): RegisterContextInterface => {
   const [error, setError] = useState<ErrorRegisterForm>(defaultError);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const validateForm = (): ErrorRegisterForm => {
-    var error: ErrorRegisterForm = defaultError;
+    var error: ErrorRegisterForm = {
+      password: "",
+      confirmPassword: "",
+      firstName: "",
+      lastName: "",
+      username: "",
+    };
     if (passwords.password.length < 8) {
       error.password = "Password too short";
     }
@@ -58,13 +64,15 @@ export const useRegister = (): RegisterContextInterface => {
     error.username = isEmpty(username);
     return error;
   };
-  const handleRegister = async () => {
-    setIsLoading(true);
-    const error = validateForm();
 
-    if (Object.keys(error).some((key) => error[key] !== "")) {
-      setError(error);
+  const handleRegister = async () => {
+    var errorObj = validateForm();
+    console.log(errorObj);
+
+    if (Object.keys(errorObj).some((key) => errorObj[key] !== "")) {
+      setError(errorObj);
     } else {
+      setIsLoading(true);
       await apiClient
         .post("/api/register", {
           firstName: firstName,

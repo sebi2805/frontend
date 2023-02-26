@@ -1,21 +1,26 @@
+import { Flex } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import { CustomSpinner } from "../common/CustomSpinner";
 export const Default: React.FC = () => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
   useEffect(() => {
-    if (user) {
-      navigate("/home");
-    } else {
-      navigate("/login");
-    }
+    if (location.pathname === "/")
+      if (user) {
+        navigate("/home");
+      } else {
+        navigate("/login");
+      }
   }, []);
 
   return (
     <>
-      <CustomSpinner />
+      <Flex w="100%" h="100%" align="center" justify={"center"}>
+        <CustomSpinner />
+      </Flex>
     </>
   );
 };

@@ -1,5 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import * as React from "react";
+import { Default } from "./components/DefaultPages/Default";
 import { Router } from "./components/Router/Router";
 import { theme } from "./theme";
 import { ErrorContextInterface } from "./utils/ErrorService/types";
@@ -21,7 +22,7 @@ export const App = () => {
     <ChakraProvider theme={theme}>
       <ErrorContext.Provider value={errorHook}>
         <UserContext.Provider value={userHooK}>
-          {userHooK.didMount && <Router />}
+          {userHooK.didMount ? <Router /> : <Default />}
         </UserContext.Provider>
       </ErrorContext.Provider>
     </ChakraProvider>

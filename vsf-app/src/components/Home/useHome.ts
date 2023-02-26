@@ -9,8 +9,8 @@ import { ErrorTransactionForm, HomeContextInterface } from "./types";
 const defaultData: TransactionInterface = {
   name: "",
   currentAmountBank: "",
-  currentAmountCash: "null",
-  amount: "null",
+  currentAmountCash: "",
+  amount: "",
   type: null,
   deposit: 0,
   date: "",
@@ -52,19 +52,34 @@ export const useHome = (): HomeContextInterface => {
           createError(err.response.data);
         });
     } else {
-      await apiClient
-        .post("/api/Transaction/create-transaction", data, authorise())
-        .then((res) => {
-          createToast("Transaction created");
-          setTransactions(
-            [...transactions, res.data].sort((a, b) =>
-              moment(a.date, "DD/MM/YYYY").diff(moment(b.date, "DD/MM/YYYY"))
+      data.isRecurent
+        ? await apiClient
+            .post(
+              "/api/Transaction/create-recurrent-transaction",
+              data,
+              authorise()
             )
-          );
-        })
-        .catch((err) => {
-          createError(err.response.data);
-        });
+            .then((res) => {
+              createToast("Recurrent transaction created");
+            })
+            .catch((err) => {
+              createError(err.response.data);
+            })
+        : await apiClient
+            .post("/api/Transaction/create-transaction", data, authorise())
+            .then((res) => {
+              createToast("Transaction created");
+              setTransactions(
+                [...transactions, res.data].sort((a, b) =>
+                  moment(a.date, "DD/MM/YYYY").diff(
+                    moment(b.date, "DD/MM/YYYY")
+                  )
+                )
+              );
+            })
+            .catch((err) => {
+              createError(err.response.data);
+            });
     }
     setIsSubmitting(false);
     reset();

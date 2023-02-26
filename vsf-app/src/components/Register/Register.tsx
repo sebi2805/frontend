@@ -43,6 +43,7 @@ export const Register: React.FC = () => {
   };
   const handleChangeFirstName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(e.target.value);
+
     setError({ ...error, firstName: isEmpty(e.target.value) });
   };
   const handleChangeLastName = (e: React.ChangeEvent<HTMLInputElement>) => {

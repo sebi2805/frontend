@@ -76,12 +76,12 @@ export const Home: React.FC = () => {
             <Box> Your current account is:</Box>
             <HStack>
               <Box> Bank: </Box>
-              <Box fontWeight={"bold"}> {user?.bank.toFixed(1)}</Box>{" "}
+              <Box fontWeight={"bold"}> {user?.bank?.toFixed(1)}</Box>{" "}
               <Box>RON</Box>
             </HStack>
             <HStack>
               <Box> Cash:</Box>{" "}
-              <Box fontWeight={"bold"}>{user?.cash.toFixed(1)} </Box>{" "}
+              <Box fontWeight={"bold"}>{user?.cash?.toFixed(1)} </Box>{" "}
               <Box>RON</Box>
             </HStack>
             <HStack>
@@ -97,7 +97,7 @@ export const Home: React.FC = () => {
           <Box fontSize={24} fontWeight={"bold"} pb={4}>
             Transactions in the last month
           </Box>
-          <Accordion allowMultiple defaultIndex={[]} w="100%">
+          <Accordion allowMultiple defaultIndex={[]} index={indexes} w="100%">
             <Grid
               templateColumns={["1fr", "1fr", "1fr", "2fr 2fr"]}
               w="100%"

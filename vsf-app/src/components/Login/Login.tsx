@@ -10,7 +10,9 @@ import {
   InputRightElement,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../App";
 import { NameWrap } from "../common/NameWrap";
 import { VSFButton } from "../common/VSFButton";
 import { VSFInput } from "../common/VSFInput";
@@ -31,6 +33,8 @@ export const Login: React.FC = () => {
     handleRegister,
     isLoading,
   } = useLogin();
+  const { user } = React.useContext(UserContext);
+  const navigate = useNavigate();
   const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
@@ -42,7 +46,11 @@ export const Login: React.FC = () => {
     );
     setPasswordToShow(e.target.value.replace(/./g, "*"));
   };
-
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, []);
   return (
     <HStack
       maxH={`calc(100vh - ${NavBarHeight + 10}px)`}
