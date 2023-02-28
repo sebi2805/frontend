@@ -10,13 +10,13 @@ export const VSFDatePicker: React.FC<VSFDatePickerInterface> = (props) => {
   const { onChange, error, value, ...others } = props;
   const [errorDate, setError] = useState<boolean>(true);
   const [inputDate, setDate] = useState<string>(
-    value ?? `${moment().toISOString()}`
+    value ?? `${moment.utc().toISOString()}`
   );
   const dateToIso = (date: string) => {
-    return moment(date).toISOString();
+    return moment.utc(date).toISOString();
   };
   const isoToDate = (date: string) => {
-    return moment(date).format("YYYY-MM-DD");
+    return moment.utc(date).format("YYYY-MM-DD");
   };
   const msgError: string = "This date isn't valid. ";
   function dateIsValid(date: string) {
@@ -29,7 +29,7 @@ export const VSFDatePicker: React.FC<VSFDatePickerInterface> = (props) => {
   }, []);
   useEffect(() => {
     setError(dateIsValid(inputDate));
-    onChange(moment(inputDate).toISOString());
+    onChange(moment.utc(inputDate).toISOString());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputDate]);
   const dateChangeHandler = (e: React.ChangeEvent<HTMLDataElement>) => {
