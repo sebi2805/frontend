@@ -1,10 +1,11 @@
-import { Box, Button, HStack, Image, Spacer } from "@chakra-ui/react";
+import { Box, Button, HStack, Icon, Image, Spacer } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
+import { ReactComponent as Logout } from "../../Assets/Icons/Logout.svg";
 export const NavBarHeight: number = 16;
 export const NavBar: React.FC = () => {
-  const { user } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
 
   const image = "PurpleLogo.png";
@@ -52,6 +53,9 @@ export const NavBar: React.FC = () => {
       )}
 
       <Spacer />
+      <Box cursor="pointer" onClick={() => logout()}>
+        <Icon as={Logout} w={6} h={6} mr={4} color="purple.1" />
+      </Box>
     </HStack>
   );
 };

@@ -1,5 +1,5 @@
 export const isEmpty = (value: string): string => {
-  return value.trim() === "" ? "This field is required" : "";
+  return value?.trim() === "" ? "This field is required" : "";
 };
 export const isNumeric = (value: string) => {
   if (value !== "" && /[a-z]/i.test(value))

@@ -1,4 +1,4 @@
-import { Box, Flex, FlexProps, HStack, Spacer, VStack } from "@chakra-ui/react";
+import { Box, Flex, FlexProps, HStack, Spacer } from "@chakra-ui/react";
 import React from "react";
 interface NameWrapProp extends FlexProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ export const NameWrap: React.FC<NameWrapProp> = ({
           {title}
         </Box>
         <Spacer />
-        {error && <Box color="red.500">{error}</Box>}
+        <Box color="red.500">{error}</Box>
       </HStack>
       <Box w="100%">{children}</Box>
     </Flex>

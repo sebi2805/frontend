@@ -31,7 +31,9 @@ export const Home: React.FC = () => {
     onOpen,
     data,
     error,
+    handleErrorChange,
     handleDataChange,
+    onOpenEdit,
   } = useContext(HomeContext);
   const [indexes, setIndexes] = React.useState<number[]>([]);
   const handleIndexChangeMobile = (index: number) => {
@@ -47,13 +49,26 @@ export const Home: React.FC = () => {
         indexes.filter((i) => Math.floor(i / 2) !== Math.floor(index / 2))
       );
     } else {
-      setIndexes([...indexes, index, index + ((index + 1) % 2)]);
+      setIndexes([...indexes, index, index % 2 === 0 ? index + 1 : index - 1]);
     }
   };
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
   return (
     <>
-      <TransactionModal />
+      <TransactionModal
+        data={data}
+        error={error}
+        isOpen={isOpen}
+        onClose={onClose}
+        onOpen={onOpen}
+        submit={submit}
+        isLoading={isLoading}
+        isSubmitting={isSubmitting}
+        handleErrorChange={(error) => handleErrorChange(error)}
+        isEdit={isEdit}
+        handleDataChange={handleDataChange}
+        onOpenEdit={onOpenEdit}
+      />
       <VStack align={"flex-start"}>
         <HStack w="100%" py={8} px={16} align="center">
           <Heading>Home</Heading>
@@ -106,21 +121,22 @@ export const Home: React.FC = () => {
               px={[0, 16]}
             >
               {transactions.map((item, index) => (
-                <AccordionItem
-                  key={item.id}
-                  border="2px solid"
-                  w="100%"
-                  onClick={() => {
-                    !isLargerThan1280
-                      ? handleIndexChangeMobile(index)
-                      : handleIndexChangeDesktop(index);
-                  }}
-                  pb={[2, 0]}
-                  bg={item.type === 10 ? "lightGreen.1" : "red.10"}
-                  borderRadius={12}
-                >
-                  <TransactionRow transaction={item} key={item.id} />
-                </AccordionItem>
+                <Fragment key={item.id + "transaction-row"}>
+                  <AccordionItem
+                    border="2px solid"
+                    w="100%"
+                    onClick={() => {
+                      !isLargerThan1280
+                        ? handleIndexChangeMobile(index)
+                        : handleIndexChangeDesktop(index);
+                    }}
+                    pb={[2, 0]}
+                    bg={item.type === 10 ? "lightGreen.1" : "red.10"}
+                    borderRadius={12}
+                  >
+                    <TransactionRow transaction={item} />
+                  </AccordionItem>
+                </Fragment>
               ))}
             </Grid>
           </Accordion>

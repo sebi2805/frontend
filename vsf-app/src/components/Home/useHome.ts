@@ -3,7 +3,9 @@ import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { apiClient, authorise } from "../../apiClient";
 import { ErrorContext } from "../../App";
+import { isEmpty } from "../../utils/helpers";
 import { TransactionInterface } from "../common/Table/types";
+import { TransactionFormId } from "../common/TransactionModal";
 import { ErrorTransactionForm, HomeContextInterface } from "./types";
 
 const defaultData: TransactionInterface = {
@@ -11,7 +13,7 @@ const defaultData: TransactionInterface = {
   currentAmountBank: "",
   currentAmountCash: "",
   amount: "",
-  type: null,
+  type: 0,
   deposit: 0,
   date: "",
   frequency: 0,
@@ -25,7 +27,7 @@ const defaultError: ErrorTransactionForm = {
   deposit: "",
   date: "",
   frequency: "",
-  startDate: "",
+
   isRecurent: "",
 };
 
@@ -41,48 +43,85 @@ export const useHome = (): HomeContextInterface => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const submit = async () => {
     setIsSubmitting(true);
-    if (isEdit) {
-      await apiClient
-        .put(`/transactions/${id}`, data, authorise())
-        .then((res) => {
-          createToast("Transaction updated");
-          getData();
-        })
-        .catch((err) => {
-          createError(err.response.data);
-        });
-    } else {
-      data.isRecurent
-        ? await apiClient
-            .post(
-              "/api/Transaction/create-recurrent-transaction",
-              data,
-              authorise()
-            )
-            .then((res) => {
-              createToast("Recurrent transaction created");
-            })
-            .catch((err) => {
-              createError(err.response.data);
-            })
-        : await apiClient
-            .post("/api/Transaction/create-transaction", data, authorise())
-            .then((res) => {
-              createToast("Transaction created");
-              setTransactions(
-                [...transactions, res.data].sort((a, b) =>
-                  moment(a.date, "DD/MM/YYYY").diff(
-                    moment(b.date, "DD/MM/YYYY")
+    if (validateForm())
+      if (isEdit) {
+        await apiClient
+          .put(`/transactions/${id}`, data, authorise())
+          .then((res) => {
+            createToast("Transaction updated");
+            getData();
+          })
+          .catch((err) => {
+            createError(err.response.data);
+          });
+      } else {
+        data.isRecurent
+          ? await apiClient
+              .post(
+                "/api/Transaction/create-recurrent-transaction",
+                data,
+                authorise()
+              )
+              .then((res) => {
+                createToast("Recurrent transaction created");
+              })
+              .catch((err) => {
+                createError(err.response.data);
+              })
+          : await apiClient
+              .post("/api/Transaction/create-transaction", data, authorise())
+              .then((res) => {
+                createToast("Transaction created");
+                setTransactions(
+                  [...transactions, res.data].sort((a, b) =>
+                    moment(a.date, "DD/MM/YYYY").diff(
+                      moment(b.date, "DD/MM/YYYY")
+                    )
                   )
-                )
-              );
-            })
-            .catch((err) => {
-              createError(err.response.data);
-            });
-    }
+                );
+              })
+              .catch((err) => {
+                createError(err.response.data);
+              });
+        reset();
+      }
     setIsSubmitting(false);
-    reset();
+  };
+  const createErrorObject = (): ErrorTransactionForm => {
+    return {
+      amount: isEmpty(data.amount),
+      type: isEmpty(data.type === 0 ? "" : data.type?.toString()),
+      name: isEmpty(data.name),
+      deposit: isEmpty(data.deposit === 0 ? "" : data.deposit?.toString()),
+      description: "",
+      date: isEmpty(data.date),
+      frequency: data.isRecurent
+        ? isEmpty(data.frequency === 0 ? "" : data.frequency?.toString() || "")
+        : "",
+      isRecurent: "",
+    };
+  };
+  const validateForm = () => {
+    var errorObject = createErrorObject();
+
+    if (
+      Object.values(errorObject).every((x) => {
+        console.log(x);
+        return x === "";
+      })
+    ) {
+      return true;
+    } else {
+      setError(errorObject);
+      for (const key in errorObject) {
+        if (errorObject.hasOwnProperty(key) && errorObject[key] !== "") {
+          const elementId = TransactionFormId[key];
+          document.getElementById(elementId || "")?.focus();
+          break;
+        }
+      }
+      return false;
+    }
   };
   const handleDataChange = (newData: Partial<TransactionInterface>) => {
     setData({ ...data, ...newData });

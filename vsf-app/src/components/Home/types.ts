@@ -22,6 +22,7 @@ export interface ErrorTransactionForm {
   deposit?: string;
   date?: string;
   frequency?: string;
-  startDate?: string;
+  description?: string;
   isRecurent?: string;
+  [key: string]: string | undefined;
 }

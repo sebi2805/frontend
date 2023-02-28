@@ -83,11 +83,11 @@ export const useRegister = (): RegisterContextInterface => {
         .then(() => {
           createToast("Account created successfully");
           setTimeout(() => {
-            navigator("/home");
+            navigator("/login");
           }, 1000);
         })
         .catch((err) => {
-          if (err.response.data.message.includes("USER_ALREADY_EXISTS"))
+          if (err.response.data.includes("USER_ALREADY_EXISTS"))
             setError({ ...error, username: "Username already exists" });
           createError(err.response.data);
         });

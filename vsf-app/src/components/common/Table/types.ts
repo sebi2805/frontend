@@ -13,8 +13,8 @@ export interface TransactionInterface {
   name: string;
   description?: string;
   amount: string;
-  type: number | null;
-  deposit: number | null;
+  type: number;
+  deposit: number;
   currentAmountBank: string;
   currentAmountCash: string;
   date: string;
