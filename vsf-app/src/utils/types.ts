@@ -10,6 +10,7 @@ export type UserRole = "admin" | "user";
 export interface UserInterface {
   id: string;
   firstName: string;
+  hasLogin: boolean;
   lastName: string;
   bank: number;
   cash: number;

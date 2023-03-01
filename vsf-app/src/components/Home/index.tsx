@@ -1,5 +1,6 @@
 import React, { createContext } from "react";
 import { Home } from "./Home";
+import { IntializeModal } from "./InitializeModal";
 import { HomeContextInterface } from "./types";
 import { useHome } from "./useHome";
 
@@ -13,6 +14,7 @@ export const HomeComponent: React.FC = () => {
     <>
       <HomeContext.Provider value={homeHook}>
         <Home />
+        <IntializeModal />
       </HomeContext.Provider>
     </>
   );

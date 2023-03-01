@@ -14,6 +14,9 @@ export interface HomeContextInterface {
   handleErrorChange: (error: Partial<ErrorTransactionForm>) => void;
   isEdit: boolean;
   handleDataChange: (date: Partial<TransactionInterface>) => void;
+  isOpenInitializeModal: boolean;
+  onOpenInitializeModal: () => void;
+  onCloseInitializeModal: () => void;
 }
 export interface ErrorTransactionForm {
   name: string;

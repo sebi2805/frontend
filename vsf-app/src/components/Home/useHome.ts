@@ -33,6 +33,11 @@ const defaultError: ErrorTransactionForm = {
 
 export const useHome = (): HomeContextInterface => {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isOpenInitializeModal,
+    onClose: onCloseInitializeModal,
+    onOpen: onOpenInitializeModal,
+  } = useDisclosure();
   const { createError, createToast } = useContext(ErrorContext);
   const [data, setData] = useState<TransactionInterface>(defaultData);
   const [error, setError] = useState<ErrorTransactionForm>(defaultError);
@@ -166,5 +171,8 @@ export const useHome = (): HomeContextInterface => {
     error,
     data,
     handleErrorChange,
+    isOpenInitializeModal,
+    onCloseInitializeModal,
+    onOpenInitializeModal,
   };
 };
