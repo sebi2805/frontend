@@ -15,9 +15,9 @@ const defaultData: TransactionInterface = {
   amount: "",
   type: 0,
   deposit: 0,
-  date: "",
+
   frequency: 0,
-  startDate: moment().format("DD/MM/YYYY"),
+  date: moment().toISOString(),
   isRecurent: false,
 };
 const defaultError: ErrorTransactionForm = {
