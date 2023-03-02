@@ -39,6 +39,7 @@ export const IntializeModal: React.FC = () => {
       .then((res) => {
         setUser(res.data);
         createToast("Successfully initialized");
+        onCloseInitializeModal();
       })
       .catch((err) => {
         createError(err.data);
@@ -48,6 +49,7 @@ export const IntializeModal: React.FC = () => {
     await apiClient(`/api/Users/initialize-user?bank=0&cash=0`, authorise())
       .then(() => {
         createToast("Successfully initialized");
+        onCloseInitializeModal();
       })
       .catch((err) => {
         createError(err.data);
