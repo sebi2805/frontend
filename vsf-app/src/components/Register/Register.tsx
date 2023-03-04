@@ -15,6 +15,7 @@ import { isEmpty } from "../../utils/helpers";
 import { NameWrap } from "../common/NameWrap";
 import { VSFButton } from "../common/VSFButton";
 import { VSFInput } from "../common/VSFInput";
+import { VSFPasswordInput } from "../common/VSFPasswordInput";
 import { NavBarHeight } from "../Dashboard/NavBar";
 import { useRegister } from "./useRegister";
 export const Register: React.FC = () => {
@@ -30,11 +31,8 @@ export const Register: React.FC = () => {
     setPasswords,
     error,
     setError,
-    showConfirmPassword,
-    showPassword,
     handleLogin,
     isLoading,
-    setShowPasswords,
   } = useRegister();
 
   const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,39 +48,14 @@ export const Register: React.FC = () => {
     setLastName(e.target.value);
     setError({ ...error, lastName: isEmpty(e.target.value) });
   };
-
-  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswords({
-      ...passwords,
-      password:
-        e.target.value.length > passwords.password.length
-          ? passwords.password + e.target.value.slice(-1)
-          : passwords.password.slice(0, -1),
-      passwordToShow: e.target.value.replace(/./g, "*"),
-    });
-    setShowPasswords({
-      showConfirmPassword: false,
-      showPassword: false,
-    });
-    setError({ ...error, password: isEmpty(e.target.value) });
+  const handlePasswordChange = (e: string) => {
+    setPasswords({ ...passwords, password: e });
+    setError({ ...error, password: isEmpty(e) });
   };
 
-  const handleChangeConfirmPassword = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setPasswords({
-      ...passwords,
-      confirmPassword:
-        e.target.value.length > passwords.confirmPassword.length
-          ? passwords.confirmPassword + e.target.value.slice(-1)
-          : passwords.confirmPassword.slice(0, -1),
-      confirmPasswordToShow: e.target.value.replace(/./g, "*"),
-    });
-    setShowPasswords({
-      showConfirmPassword: false,
-      showPassword: false,
-    });
-    setError({ ...error, confirmPassword: isEmpty(e.target.value) });
+  const handleConfirmPasswordChange = (e: string) => {
+    setPasswords({ ...passwords, confirmPassword: e });
+    setError({ ...error, confirmPassword: isEmpty(e) });
   };
 
   return (
@@ -152,24 +125,11 @@ export const Register: React.FC = () => {
             />
           </NameWrap>
           <NameWrap title="Password" error={error.password} pb={4} w="90%">
-            <InputGroup>
-              <VSFInput
-                placeholder="Enter password"
-                value={passwords.passwordToShow}
-                error={error.password}
-                onChange={handleChangePassword}
-              />
-              <InputRightElement>
-                <Icon
-                  mt={2}
-                  as={ViewIcon}
-                  onClick={showPassword}
-                  h={6}
-                  w={6}
-                  cursor="pointer"
-                />
-              </InputRightElement>
-            </InputGroup>
+            <VSFPasswordInput
+              password={passwords.password}
+              handlePasswordChange={handlePasswordChange}
+              error={error.password}
+            />
           </NameWrap>
           <NameWrap
             title="Confirm Password"
@@ -177,24 +137,11 @@ export const Register: React.FC = () => {
             pb={4}
             w="90%"
           >
-            <InputGroup>
-              <VSFInput
-                placeholder="Enter confirm password"
-                value={passwords.confirmPasswordToShow}
-                error={error.password}
-                onChange={handleChangeConfirmPassword}
-              />
-              <InputRightElement>
-                <Icon
-                  mt={2}
-                  as={ViewIcon}
-                  onClick={showConfirmPassword}
-                  h={6}
-                  w={6}
-                  cursor="pointer"
-                />
-              </InputRightElement>
-            </InputGroup>
+            <VSFPasswordInput
+              password={passwords.confirmPassword}
+              handlePasswordChange={handleConfirmPasswordChange}
+              error={error.confirmPassword}
+            />
           </NameWrap>
           <Flex
             position={"sticky"}

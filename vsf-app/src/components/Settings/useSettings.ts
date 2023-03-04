@@ -1,5 +1,6 @@
 import { useDisclosure } from "@chakra-ui/react";
 import { useContext, useState } from "react";
+import { apiClient, authorise } from "../../apiClient";
 import { ErrorContext, UserContext } from "../../App";
 import { UserInterface } from "../../utils/types";
 import { TransactionInterface } from "../common/Table/types";
@@ -7,28 +8,55 @@ import {
   RecurrentTransactionInterface,
   SettingsContextInterface,
 } from "./types";
+import { UserModalInterface } from "./UserModal/useUserModal";
 
 export const useSettings = (): SettingsContextInterface => {
-  const { isOpen, onClose, onOpen } = useDisclosure();
-  const {
-    isOpen: isOpenForgetPassword,
-    onClose: onCloseForgetPassword,
-    onOpen: onOpenForgetPassword,
-  } = useDisclosure();
-  const { user } = useContext(UserContext);
-  const [userChanges, setUserChanges] = useState<UserInterface | null>(user);
+  const { logout } = useContext(UserContext);
+
   const [idRecurrentTransaction, setIdRecurrentTransaction] = useState<
     string | undefined
   >(undefined);
-  const [isLoadingUserChanges, setIsLoadingUserChanges] =
-    useState<boolean>(false);
-  const [isLoadingPasswordChanges, setIsLoadingPasswordChanges] =
-    useState<boolean>(false);
+
   const { createError, createToast } = useContext(ErrorContext);
-  const changePassword = async () => {};
-  const submitChanges = async () => {};
-  const submitTransaction = async (data: TransactionInterface) => {};
-  const changeUser = async (data: Partial<UserInterface>) => {};
+  const getData = async () => {};
+  const submitPassword = async (oldPassword: string, newPassword: string) => {
+    await apiClient
+      .put(
+        `/api/Users/change-password?oldPassword=${oldPassword}&newPassword=${newPassword}`,
+        {},
+        authorise()
+      )
+      .then(() => {
+        createToast("Password changed!");
+      })
+      .catch((err) => {
+        createError(err.data);
+      });
+  };
+  const submitUser = async (data: UserModalInterface) => {
+    await apiClient
+      .put("/api/Users/update-user", data, authorise())
+      .then((res) => {
+        createToast("Changes saved!");
+      })
+      .catch((err) => {
+        createError(err.data);
+      });
+  };
+  const submitTransaction = async () => {
+    getData();
+  };
+  const deleteUser = async () => {
+    await apiClient
+      .delete("/api/Users/delete-user", authorise())
+      .then((res) => {
+        logout();
+      })
+      .catch((err) => {
+        createError(err.data);
+      });
+  };
+
   const [recurrentTransactions, setRecurrentTransactions] = useState<
     RecurrentTransactionInterface[]
   >([
@@ -45,20 +73,11 @@ export const useSettings = (): SettingsContextInterface => {
     },
   ]);
   return {
-    isOpen,
-    onClose,
-    onOpen,
-    onOpenForgetPassword,
-    onCloseForgetPassword,
-    isOpenForgetPassword,
-    isLoadingUserChanges,
-    isLoadingPasswordChanges,
-    changePassword,
-    userChanges,
-    submitChanges,
-    changeUser,
+    submitPassword,
+    submitUser,
     recurrentTransactions,
     submitTransaction,
     idRecurrentTransaction,
+    deleteUser,
   };
 };

@@ -9,10 +9,6 @@ export interface RegisterContextInterface {
   error: ErrorRegisterForm;
   setError: (value: ErrorRegisterForm) => void;
   isLoading: boolean;
-  showPasswords: ShowPasswords;
-  setShowPasswords: (value: ShowPasswords) => void;
-  showPassword: () => void;
-  showConfirmPassword: () => void;
   handleRegister: () => void;
   setUsername: (value: string) => void;
   handleLogin: () => void;
@@ -28,11 +24,5 @@ export interface ErrorRegisterForm {
 }
 export interface RegisterPassword {
   password: string;
-  passwordToShow: string;
   confirmPassword: string;
-  confirmPasswordToShow: string;
-}
-export interface ShowPasswords {
-  showPassword: boolean;
-  showConfirmPassword: boolean;
 }

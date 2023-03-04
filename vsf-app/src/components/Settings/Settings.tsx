@@ -12,9 +12,19 @@ import { VSFButton } from "../common/VSFButton";
 import { TransactionModal } from "../common/VSFTransactionModal/VSFTransactionModal";
 import { SettingsContext } from ".";
 import { RecurrentTransactionRow } from "./RecurrentTransactionRow";
+import { ConfirmationModal } from "../common/ConfirmationModal";
+import { UserModal } from "./UserModal/UserModal";
+import { ChangePasswordModal } from "./ChangePassword/ChangePassword";
 export const Settings: React.FC = () => {
-  const { submitTransaction, idRecurrentTransaction, recurrentTransactions } =
-    useContext(SettingsContext);
+  const {
+    submitTransaction,
+    idRecurrentTransaction,
+    recurrentTransactions,
+    deleteUser,
+    submitUser,
+    submitPassword,
+  } = useContext(SettingsContext);
+
   return (
     <>
       {" "}
@@ -27,20 +37,22 @@ export const Settings: React.FC = () => {
               submitProps={submitTransaction}
               idProps={idRecurrentTransaction}
             />
-            <VSFButton w={44} onClick={() => {}}>
-              Change password
-            </VSFButton>
-            <VSFButton w={44} onClick={() => {}}>
-              Change user
-            </VSFButton>
-            <VSFButton
-              bg="red.600"
-              colorScheme={"red"}
-              w={44}
-              onClick={() => {}}
+            <ChangePasswordModal submitProps={submitPassword} />
+            <UserModal submitProps={submitUser} />
+            <ConfirmationModal
+              title="Delete Account"
+              message="Are you sure you want to delete your account?"
+              onConfirm={deleteUser}
             >
-              Delete account
-            </VSFButton>
+              <VSFButton
+                bg="red.600"
+                colorScheme={"red"}
+                w={44}
+                onClick={() => {}}
+              >
+                Delete Account
+              </VSFButton>
+            </ConfirmationModal>
           </VStack>
         </HStack>
 

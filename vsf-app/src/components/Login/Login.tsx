@@ -13,9 +13,11 @@ import {
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
+import { isEmpty } from "../../utils/helpers";
 import { NameWrap } from "../common/NameWrap";
 import { VSFButton } from "../common/VSFButton";
 import { VSFInput } from "../common/VSFInput";
+import { VSFPasswordInput } from "../common/VSFPasswordInput";
 import { NavBarHeight } from "../Dashboard/NavBar";
 import { useLogin } from "./useLogin";
 export const Login: React.FC = () => {
@@ -26,9 +28,7 @@ export const Login: React.FC = () => {
     setUsername,
     setPassword,
     error,
-    passwordToShow,
-    handleShow,
-    setPasswordToShow,
+    setError,
     handleForgotPassword,
     handleRegister,
     isLoading,
@@ -37,15 +37,13 @@ export const Login: React.FC = () => {
   const navigate = useNavigate();
   const handleChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
+    setError({ ...error, username: isEmpty(e.target.value) });
   };
-  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(
-      e.target.value.length > password.length
-        ? password + e.target.value.slice(-1)
-        : password.slice(0, -1)
-    );
-    setPasswordToShow(e.target.value.replace(/./g, "*"));
+  const handlePasswordChange = (e: string) => {
+    setPassword(e);
+    setError({ ...error, password: isEmpty(password) });
   };
+
   useEffect(() => {
     if (user) {
       navigate("/home");
@@ -93,24 +91,11 @@ export const Login: React.FC = () => {
             />
           </NameWrap>
           <NameWrap title="Password" error={error.password} pb={4} w="100%">
-            <InputGroup>
-              <VSFInput
-                placeholder="Enter password"
-                value={passwordToShow}
-                error={error.password}
-                onChange={handleChangePassword}
-              />
-              <InputRightElement>
-                <Icon
-                  mt={2}
-                  as={ViewIcon}
-                  onClick={handleShow}
-                  h={6}
-                  w={6}
-                  cursor="pointer"
-                />
-              </InputRightElement>
-            </InputGroup>
+            <VSFPasswordInput
+              password={password}
+              handlePasswordChange={handlePasswordChange}
+              error={error.password}
+            />
           </NameWrap>
           <VSFButton onClick={handleLogin} isLoading={isLoading} w="100%">
             Login

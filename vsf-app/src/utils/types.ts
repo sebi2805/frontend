@@ -9,6 +9,7 @@ export interface UserContextinterface {
 export type UserRole = "admin" | "user";
 export interface UserInterface {
   id: string;
+  username: string;
   firstName: string;
   hasLogin: boolean;
   lastName: string;

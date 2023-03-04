@@ -19,6 +19,7 @@ import React, { useContext, useMemo } from "react";
 import { isEmpty, isNumeric } from "../../../utils/helpers";
 import { HomeContext } from "../../Home";
 import { ErrorTransactionForm } from "../../Home/types";
+import { FormIdDictionary } from "../../Settings/UserModal/useUserModal";
 import { CustomSpinner } from "../CustomSpinner";
 import { NameWrap } from "../NameWrap";
 import { TransactionInterface } from "../Table/types";
@@ -29,7 +30,7 @@ import { VSFInput } from "../VSFInput";
 import { VSFTextArea } from "../VSFTextArea";
 import { useTransaction } from "./useTransaction";
 
-export const TransactionFormId: TransactionFormIdInterface = {
+export const TransactionFormId: FormIdDictionary = {
   name: "id-transaction-name",
   description: "id-transaction-description",
   type: "id-transaction-type",
@@ -39,17 +40,7 @@ export const TransactionFormId: TransactionFormIdInterface = {
   date: "id-transaction-date",
   isRecurring: "id-transaction-isRecurring",
 };
-interface TransactionFormIdInterface {
-  name: string;
-  description: string;
-  type: string;
-  deposit: string;
-  amount: string;
-  frequency: string;
-  date: string;
-  isRecurring: string;
-  [key: string]: string | undefined;
-}
+
 export interface TransactionModalProps {
   submitProps: (data: TransactionInterface) => void;
   idProps?: string;

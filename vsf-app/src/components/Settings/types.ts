@@ -1,23 +1,16 @@
 import { UserInterface } from "../../utils/types";
 import { TransactionInterface } from "../common/Table/types";
+import { UserModalInterface } from "./UserModal/useUserModal";
 
 export interface SettingsContextInterface {
-  isOpen: boolean;
-  onClose: () => void;
-  onOpen: () => void;
-  onOpenForgetPassword: () => void;
-  onCloseForgetPassword: () => void;
-  isOpenForgetPassword: boolean;
-  isLoadingUserChanges: boolean;
-  isLoadingPasswordChanges: boolean;
-  changePassword: () => void;
-  userChanges: UserInterface | null;
-  submitChanges: () => void;
-  changeUser: (data: Partial<UserInterface>) => void;
-  submitTransaction: (data: TransactionInterface) => void;
+  submitPassword: (oldPassword: string, newPassword: string) => Promise<void>;
+  submitUser: (data: UserModalInterface) => void;
+  submitTransaction: () => void;
   recurrentTransactions: RecurrentTransactionInterface[];
   idRecurrentTransaction?: string;
+  deleteUser: () => void;
 }
+
 export interface RecurrentTransactionInterface {
   id: string;
   name: string;

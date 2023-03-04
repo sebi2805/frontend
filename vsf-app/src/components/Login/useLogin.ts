@@ -17,13 +17,6 @@ export const useLogin = (): LoginContextInterface => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<ErrorLoginForm>(defaultError);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [passwordToShow, setPasswordToShow] = useState<string>("");
-  const [show, setShow] = useState<boolean>(false);
-  const handleShow = () => {
-    setShow(!show);
-    if (show) setPasswordToShow(password);
-    else setPasswordToShow(password.replace(/./g, "*"));
-  };
 
   const createErrorObject = () => {
     var error: ErrorLoginForm = {
@@ -60,9 +53,6 @@ export const useLogin = (): LoginContextInterface => {
   return {
     handleForgotPassword,
     handleRegister,
-    passwordToShow,
-    handleShow,
-    setPasswordToShow,
     username,
     setUsername,
     password,
@@ -70,5 +60,6 @@ export const useLogin = (): LoginContextInterface => {
     error,
     isLoading,
     handleLogin,
+    setError,
   };
 };

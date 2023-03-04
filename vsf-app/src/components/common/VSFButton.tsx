@@ -2,7 +2,7 @@ import { Button, ButtonProps } from "@chakra-ui/react";
 import React from "react";
 interface VSFButtonProps extends ButtonProps {
   onClick: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 export const VSFButton: React.FC<VSFButtonProps> = ({
   children,

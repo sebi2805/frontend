@@ -7,14 +7,11 @@ import {
   ErrorRegisterForm,
   RegisterContextInterface,
   RegisterPassword,
-  ShowPasswords,
 } from "./types";
 
 const defaultPasswords: RegisterPassword = {
   password: "",
   confirmPassword: "",
-  passwordToShow: "",
-  confirmPasswordToShow: "",
 };
 const defaultError: ErrorRegisterForm = {
   password: "",
@@ -29,10 +26,7 @@ export const useRegister = (): RegisterContextInterface => {
   const [username, setUsername] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
-  const [showPasswords, setShowPasswords] = useState<ShowPasswords>({
-    showPassword: false,
-    showConfirmPassword: false,
-  });
+
   const [passwords, setPasswords] =
     useState<RegisterPassword>(defaultPasswords);
   const [error, setError] = useState<ErrorRegisterForm>(defaultError);
@@ -67,7 +61,6 @@ export const useRegister = (): RegisterContextInterface => {
 
   const handleRegister = async () => {
     var errorObj = validateForm();
-    console.log(errorObj);
 
     if (Object.keys(errorObj).some((key) => errorObj[key] !== "")) {
       setError(errorObj);
@@ -97,38 +90,12 @@ export const useRegister = (): RegisterContextInterface => {
   const handleLogin = () => {
     navigator("/login");
   };
-  const showPassword = () => {
-    setShowPasswords({
-      ...showPasswords,
-      showPassword: !showPasswords.showPassword,
-    });
-    setPasswords({
-      ...passwords,
-      passwordToShow: !showPasswords.showPassword
-        ? passwords.password
-        : passwords.password.replace(/./g, "*"),
-    });
-  };
-  const showConfirmPassword = () => {
-    setShowPasswords({
-      ...showPasswords,
-      showConfirmPassword: !showPasswords.showConfirmPassword,
-    });
-    setPasswords({
-      ...passwords,
-      confirmPasswordToShow: !showPasswords.showConfirmPassword
-        ? passwords.confirmPassword
-        : passwords.confirmPassword.replace(/./g, "*"),
-    });
-  };
 
   return {
     firstName,
     setFirstName,
     lastName,
     setLastName,
-    setShowPasswords,
-    showPasswords,
     username,
     setUsername,
     passwords,
@@ -136,8 +103,6 @@ export const useRegister = (): RegisterContextInterface => {
     error,
     setError,
     isLoading,
-    showConfirmPassword,
-    showPassword,
     handleRegister,
     handleLogin,
   };
