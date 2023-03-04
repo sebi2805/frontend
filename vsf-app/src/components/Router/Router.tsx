@@ -6,6 +6,7 @@ import { NotFoundPage } from "../DefaultPages/NotFoundPage";
 import { HomeComponent } from "../Home";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
+import { SettingsComponent } from "../Settings";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Router: React.FC = () => {
@@ -26,6 +27,16 @@ export const Router: React.FC = () => {
           <DashboardWrapper>
             <ProtectedRoute>
               <HomeComponent />
+            </ProtectedRoute>
+          </DashboardWrapper>
+        }
+      />
+      <Route
+        path={"/settings"}
+        element={
+          <DashboardWrapper>
+            <ProtectedRoute>
+              <SettingsComponent />
             </ProtectedRoute>
           </DashboardWrapper>
         }

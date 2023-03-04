@@ -16,17 +16,18 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useContext, useMemo } from "react";
-import { isEmpty, isNumeric } from "../../utils/helpers";
-import { HomeContext } from "../Home";
-import { ErrorTransactionForm } from "../Home/types";
-import { CustomSpinner } from "./CustomSpinner";
-import { NameWrap } from "./NameWrap";
-import { TransactionInterface } from "./Table/types";
-import { VSFButton } from "./VSFButton";
-import { VSFDatePicker } from "./VSFDatePicker";
-import { SelectOptionsInterface, VSFDropdown } from "./VSFDropdown";
-import { VSFInput } from "./VSFInput";
-import { VSFTextArea } from "./VSFTextArea";
+import { isEmpty, isNumeric } from "../../../utils/helpers";
+import { HomeContext } from "../../Home";
+import { ErrorTransactionForm } from "../../Home/types";
+import { CustomSpinner } from "../CustomSpinner";
+import { NameWrap } from "../NameWrap";
+import { TransactionInterface } from "../Table/types";
+import { VSFButton } from "../VSFButton";
+import { VSFDatePicker } from "../VSFDatePicker";
+import { SelectOptionsInterface, VSFDropdown } from "../VSFDropdown";
+import { VSFInput } from "../VSFInput";
+import { VSFTextArea } from "../VSFTextArea";
+import { useTransaction } from "./useTransaction";
 
 export const TransactionFormId: TransactionFormIdInterface = {
   name: "id-transaction-name",
@@ -50,32 +51,28 @@ interface TransactionFormIdInterface {
   [key: string]: string | undefined;
 }
 export interface TransactionModalProps {
-  data: TransactionInterface;
-  error: ErrorTransactionForm;
-  isOpen: boolean;
-  onClose: () => void;
-  onOpen: () => void;
-  onOpenEdit: (id: string) => void;
-  submit: () => void;
-  isLoading: boolean;
-  isSubmitting: boolean;
-  handleErrorChange: (error: Partial<ErrorTransactionForm>) => void;
-  isEdit: boolean;
-  handleDataChange: (date: Partial<TransactionInterface>) => void;
+  submitProps: (data: TransactionInterface) => void;
+  idProps?: string;
 }
 
 export const TransactionModal: React.FC<TransactionModalProps> = ({
-  isOpen,
-  onClose,
-  submit,
-  isLoading,
-  isSubmitting,
-  handleDataChange,
-  isEdit,
-  data,
-  handleErrorChange,
-  error,
+  submitProps,
+  idProps,
 }) => {
+  const {
+    handleDataChange,
+    handleErrorChange,
+    data,
+    error,
+    isOpen,
+    onClose,
+    onOpen,
+    submit,
+    isLoading,
+    isSubmitting,
+    isEdit,
+  } = useTransaction(submitProps, idProps);
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleDataChange({ name: e.target.value });
     handleErrorChange({ name: isEmpty(e.target.value) });
@@ -131,6 +128,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
   return (
     <>
+      <VSFButton onClick={onOpen}>Add transaction</VSFButton>
       <Modal isOpen={isOpen} onClose={onClose} size="2xl">
         <ModalOverlay />
         <ModalContent bg={"white"} position="relative">

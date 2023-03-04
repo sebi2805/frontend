@@ -15,26 +15,12 @@ import React, { Fragment, useContext } from "react";
 import { HomeContext } from ".";
 import { UserContext } from "../../App";
 
-import { TransactionModal } from "../common/TransactionModal";
-import { VSFButton } from "../common/VSFButton";
+import { TransactionModal } from "../common/VSFTransactionModal/VSFTransactionModal";
 import { TransactionRow } from "./TransactionRow";
 export const Home: React.FC = () => {
   const { user } = useContext(UserContext);
-  const {
-    transactions,
-    isLoading,
-    isSubmitting,
-    isOpen,
-    isEdit,
-    onClose,
-    submit,
-    onOpen,
-    data,
-    error,
-    handleErrorChange,
-    handleDataChange,
-    onOpenEdit,
-  } = useContext(HomeContext);
+  const { transactions, submit, onOpenEdit, id } = useContext(HomeContext);
+
   const [indexes, setIndexes] = React.useState<number[]>([]);
   const handleIndexChangeMobile = (index: number) => {
     if (indexes.includes(index)) {
@@ -55,25 +41,11 @@ export const Home: React.FC = () => {
   const [isLargerThan1280] = useMediaQuery("(min-width: 1280px)");
   return (
     <>
-      <TransactionModal
-        data={data}
-        error={error}
-        isOpen={isOpen}
-        onClose={onClose}
-        onOpen={onOpen}
-        submit={submit}
-        isLoading={isLoading}
-        isSubmitting={isSubmitting}
-        handleErrorChange={(error) => handleErrorChange(error)}
-        isEdit={isEdit}
-        handleDataChange={handleDataChange}
-        onOpenEdit={onOpenEdit}
-      />
       <VStack align={"flex-start"}>
         <HStack w="100%" py={8} px={16} align="center">
           <Heading>Home</Heading>
           <Spacer />
-          <VSFButton onClick={onOpen}>Add transaction</VSFButton>
+          <TransactionModal submitProps={submit} idProps={id} />
         </HStack>
         <Flex
           direction={["column", "row"]}
@@ -123,13 +95,13 @@ export const Home: React.FC = () => {
               {transactions.map((item, index) => (
                 <Fragment key={item.id + "transaction-row"}>
                   <AccordionItem
-                    border="2px solid"
                     w="100%"
                     onClick={() => {
                       !isLargerThan1280
                         ? handleIndexChangeMobile(index)
                         : handleIndexChangeDesktop(index);
                     }}
+                    border="2px solid"
                     pb={[2, 0]}
                     bg={item.type === 10 ? "lightGreen.1" : "red.10"}
                     borderRadius={12}

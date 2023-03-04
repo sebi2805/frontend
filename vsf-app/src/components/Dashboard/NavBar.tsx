@@ -44,6 +44,7 @@ export const NavBar: React.FC = () => {
           <NavBarItem path="/home" text="Home" />
           <NavBarItem path="/history" text="History" />
           <NavBarItem path="/statistics" text="Statistics" />
+          <NavBarItem path="/settings" text="Settings" />
         </>
       ) : (
         <>

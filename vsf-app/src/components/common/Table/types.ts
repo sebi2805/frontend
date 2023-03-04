@@ -8,6 +8,12 @@ export const DepositType: RecordType = {
   10: "Bank",
   20: "Cash",
 };
+export const FrequencyType: RecordType = {
+  10: "Daily",
+  20: "Weekly",
+  30: "Monthly",
+  40: "Yearly",
+};
 export interface TransactionInterface {
   id?: string;
   name: string;
