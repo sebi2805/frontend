@@ -56,7 +56,10 @@ export const Settings: React.FC = () => {
           </VStack>
         </HStack>
 
-        <Box pl={4}> Your Recurrent Payments</Box>
+        <Box pl={4} fontSize={20} fontWeight="bold">
+          {" "}
+          Your Recurrent Payments
+        </Box>
         <Flex w="100%" align={"center"}>
           {isLoading ? (
             <CustomSpinner />
@@ -69,6 +72,7 @@ export const Settings: React.FC = () => {
                     w="100%"
                     border="2px solid"
                     pb={[2, 0]}
+                    mb={4}
                     bg={transaction.type === 10 ? "lightGreen.1" : "red.10"}
                     borderRadius={12}
                   >

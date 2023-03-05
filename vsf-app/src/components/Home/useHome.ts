@@ -22,7 +22,7 @@ export const useHome = (): HomeContextInterface => {
   const submit = async (data: TransactionInterface) => {
     if (id) {
       await apiClient
-        .put(`/transactions/${id}`, data, authorise())
+        .put(`/api/Transaction/update-transaction?id=${id}`, data, authorise())
         .then((res) => {
           createToast("Transaction updated");
           getData();

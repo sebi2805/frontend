@@ -1,7 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import { apiClient } from "../../../apiClient";
+import { apiClient, authorise } from "../../../apiClient";
 import { ErrorContext } from "../../../App";
 import { isEmpty } from "../../../utils/helpers";
 import { ErrorTransactionForm } from "../../Home/types";
@@ -36,6 +36,7 @@ export interface useTransactionInterface {
   submit: () => void;
   isLoading: boolean;
   isSubmitting: boolean;
+  reset: () => void;
   handleErrorChange: (error: Partial<ErrorTransactionForm>) => void;
   idProps?: string;
   handleDataChange: (date: Partial<TransactionInterface>) => void;
@@ -46,14 +47,14 @@ export const useTransaction = (
   idProps?: string
 ): useTransactionInterface => {
   const { createError } = useContext(ErrorContext);
-  const [id, setId] = useState<string>("");
+  const [id, setId] = useState<string>(idProps || "");
   const [data, setData] = useState<TransactionInterface>(defaultData);
   const [error, setError] = useState<ErrorTransactionForm>(defaultError);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const createErrorObject = (): ErrorTransactionForm => {
     return {
-      amount: isEmpty(data.amount),
+      amount: isEmpty(data.amount.toString()),
       type: isEmpty(data.type === 0 ? "" : data.type?.toString()),
       name: isEmpty(data.name),
       deposit: isEmpty(data.deposit === 0 ? "" : data.deposit?.toString()),
@@ -88,8 +89,9 @@ export const useTransaction = (
   };
   const initializeEdit = async () => {
     setIsLoading(true);
+    onOpen();
     await apiClient
-      .get(`/api/Transaction/${idProps}`)
+      .get(`/api/Transaction/get-transaction?id=${idProps}`, authorise())
       .then((res) => {
         setData(res.data);
       })
@@ -121,13 +123,15 @@ export const useTransaction = (
     }
   };
   useEffect(() => {
-    if (idProps) {
-      setId(idProps);
+    if (id) {
       initializeEdit();
     }
+  }, [id]);
+  useEffect(() => {
+    setId(idProps || "");
   }, [idProps]);
-
   return {
+    reset,
     data,
     error,
     isOpen,

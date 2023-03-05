@@ -61,6 +61,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
     submit,
     isLoading,
     isSubmitting,
+    reset,
   } = useTransaction(submitProps, idProps);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,7 +120,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   return (
     <>
       <VSFButton onClick={onOpen}>Add transaction</VSFButton>
-      <Modal isOpen={isOpen} onClose={onClose} size="2xl">
+      <Modal isOpen={isOpen} onClose={reset} size="2xl">
         <ModalOverlay />
         <ModalContent bg={"white"} position="relative">
           <ModalHeader
@@ -144,7 +145,9 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           </ModalHeader>
           <ModalBody maxH={"70vh"} overflow="scroll">
             {isLoading ? (
-              <CustomSpinner />
+              <Flex justify="center" w="100%">
+                <CustomSpinner />
+              </Flex>
             ) : (
               <VStack spacing="0" position={"relative"}>
                 <HStack w="100%" h="100%">
