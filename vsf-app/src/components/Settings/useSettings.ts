@@ -1,8 +1,6 @@
-import { useDisclosure } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { apiClient, authorise } from "../../apiClient";
 import { ErrorContext, UserContext } from "../../App";
-import { UserInterface } from "../../utils/types";
 import { TransactionInterface } from "../common/Table/types";
 import {
   RecurrentTransactionInterface,
@@ -11,14 +9,37 @@ import {
 import { UserModalInterface } from "./UserModal/useUserModal";
 
 export const useSettings = (): SettingsContextInterface => {
+  const [recurrentTransactions, setRecurrentTransactions] = useState<
+    RecurrentTransactionInterface[]
+  >([
+    {
+      id: "1",
+      name: "Netflix",
+      amount: 10,
+      date: "2021-10-10",
+      deposit: 20,
+      type: 10,
+      frequency: 10,
+      isCanceled: true,
+      description: "lorem ipsum  lorem ipsum       lorem  ",
+    },
+  ]);
   const { logout } = useContext(UserContext);
 
-  const [idRecurrentTransaction, setIdRecurrentTransaction] = useState<
-    string | undefined
-  >(undefined);
-
+  const [id, setId] = useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { createError, createToast } = useContext(ErrorContext);
-  const getData = async () => {};
+  const getData = async () => {
+    await apiClient
+      .get("/api/Transaction/get-users-recurrent-transactions", authorise())
+      .then((res) => {
+        setRecurrentTransactions(res.data);
+      })
+      .catch((err) => {
+        createError(err.data);
+      });
+    setIsLoading(false);
+  };
   const submitPassword = async (oldPassword: string, newPassword: string) => {
     await apiClient
       .put(
@@ -43,7 +64,40 @@ export const useSettings = (): SettingsContextInterface => {
         createError(err.data);
       });
   };
-  const submitTransaction = async () => {
+  const submitTransaction = async (data: TransactionInterface) => {
+    if (id) {
+      await apiClient
+        .put(`/transactions/${id}`, data, authorise())
+        .then((res) => {
+          createToast("Transaction updated");
+          getData();
+        })
+        .catch((err) => {
+          createError(err.response.data);
+        });
+    } else {
+      data.isRecurent
+        ? await apiClient
+            .post(
+              "/api/Transaction/create-recurrent-transaction",
+              data,
+              authorise()
+            )
+            .then((res) => {
+              createToast("Recurrent transaction created");
+            })
+            .catch((err) => {
+              createError(err.response.data);
+            })
+        : await apiClient
+            .post("/api/Transaction/create-transaction", data, authorise())
+            .then((res) => {
+              createToast("Transaction created");
+            })
+            .catch((err) => {
+              createError(err.response.data);
+            });
+    }
     getData();
   };
   const deleteUser = async () => {
@@ -56,28 +110,51 @@ export const useSettings = (): SettingsContextInterface => {
         createError(err.data);
       });
   };
-
-  const [recurrentTransactions, setRecurrentTransactions] = useState<
-    RecurrentTransactionInterface[]
-  >([
-    {
-      id: "1",
-      name: "Netflix",
-      amount: 10,
-      date: "2021-10-10",
-      deposit: 20,
-      type: 10,
-      frequency: 10,
-      isCanceled: true,
-      description: "lorem ipsum  lorem ipsum       lorem  ",
-    },
-  ]);
+  const handleEdit = (id: string) => {
+    setId(id);
+  };
+  const handleDelete = async (id: string) => {
+    await apiClient
+      .delete(
+        `/api/Transaction/delete-recurrent-transaction?id=${id}`,
+        authorise()
+      )
+      .then((res) => {
+        createToast("Recurrent transaction deleted");
+        getData();
+      })
+      .catch((err) => {
+        createError(err.response.data);
+      });
+  };
+  const handleToggle = async (id: string) => {
+    await apiClient
+      .put(
+        `/api/Transaction/toggle-recurrent-transaction?id=${id}`,
+        {},
+        authorise()
+      )
+      .then((res) => {
+        createToast("Recurrent transaction toggled");
+        getData();
+      })
+      .catch((err) => {
+        createError(err.response.data);
+      });
+  };
+  useEffect(() => {
+    getData();
+  }, []);
   return {
+    handleToggle,
+    isLoading,
     submitPassword,
     submitUser,
     recurrentTransactions,
     submitTransaction,
-    idRecurrentTransaction,
+    id,
+    handleEdit,
+    handleDelete,
     deleteUser,
   };
 };

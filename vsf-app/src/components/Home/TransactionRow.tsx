@@ -2,20 +2,27 @@ import {
   Accordion,
   AccordionButton,
   AccordionPanel,
+  Box,
   Flex,
   Grid,
   GridItem,
   HStack,
   Icon,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { NameWrap } from "../common/NameWrap";
 import { DepositType, TransactionInterface } from "../common/Table/types";
 import { ReactComponent as ExpensesIcon } from "../../Assets/Icons/Expenses.svg";
 import { ReactComponent as IncomesIcon } from "../../Assets/Icons/Incomes.svg";
 import moment from "moment";
+import { ReactComponent as Options } from "../../Assets/Icons/Options.svg";
+import { HomeContext } from ".";
 export interface TransactionRowProps {
   transaction: TransactionInterface;
 }
@@ -23,6 +30,8 @@ export interface TransactionRowProps {
 export const TransactionRow: React.FC<TransactionRowProps> = ({
   transaction,
 }) => {
+  const { handleDelete, handleEdit } = useContext(HomeContext);
+
   return (
     <GridItem w="100%">
       <AccordionButton w="100%">
@@ -87,6 +96,29 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
             </Text>
           </NameWrap>
         </Flex>
+        <Menu>
+          <MenuButton as={Box} cursor={"pointer"}>
+            <Icon as={Options} boxSize={8} />
+          </MenuButton>
+          <MenuList bg="white">
+            <MenuItem
+              bg="white"
+              _hover={{ bg: "purple.10" }}
+              onClick={() => handleEdit(transaction.id || "")}
+            >
+              Edit
+            </MenuItem>
+
+            <MenuItem
+              color="red.500"
+              bg="white"
+              _hover={{ bg: "purple.10" }}
+              onClick={() => handleDelete(transaction.id || "")}
+            >
+              Delete
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </AccordionButton>
       <AccordionPanel>
         <VStack w="100%" pl={[0, 12]}>

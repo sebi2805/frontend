@@ -3,10 +3,8 @@ import moment from "moment";
 import { useContext, useEffect, useState } from "react";
 import { apiClient, authorise } from "../../apiClient";
 import { ErrorContext } from "../../App";
-import { isEmpty } from "../../utils/helpers";
 import { TransactionInterface } from "../common/Table/types";
-import { TransactionFormId } from "../common/VSFTransactionModal/VSFTransactionModal";
-import { ErrorTransactionForm, HomeContextInterface } from "./types";
+import { HomeContextInterface } from "./types";
 
 export const useHome = (): HomeContextInterface => {
   const {
@@ -17,14 +15,12 @@ export const useHome = (): HomeContextInterface => {
   const { createError, createToast } = useContext(ErrorContext);
 
   const [transactions, setTransactions] = useState<TransactionInterface[]>([]);
-  const [isEdit, setIsEdit] = useState(false);
+
   const [id, setId] = useState<string | undefined>(undefined);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const submit = async (data: TransactionInterface) => {
-    setIsSubmitting(true);
 
-    if (isEdit) {
+  const submit = async (data: TransactionInterface) => {
+    if (id) {
       await apiClient
         .put(`/transactions/${id}`, data, authorise())
         .then((res) => {
@@ -64,7 +60,6 @@ export const useHome = (): HomeContextInterface => {
               createError(err.response.data);
             });
     }
-    setIsSubmitting(false);
   };
 
   const getData = async () => {
@@ -79,14 +74,29 @@ export const useHome = (): HomeContextInterface => {
       });
     setIsLoading(false);
   };
-  const onOpenEdit = (id: string) => {};
+  const handleEdit = (id: string) => {
+    setId(id);
+  };
+  const handleDelete = async (id: string) => {
+    await apiClient
+      .delete(`/api/Transaction/delete-transaction?id=${id}`, authorise())
+      .then((res) => {
+        createToast("Transaction deleted");
+        getData();
+      })
+      .catch((err) => {
+        createError(err.response.data);
+      });
+  };
   useEffect(() => {
     getData();
   }, []);
 
   return {
     id,
-    onOpenEdit,
+    handleDelete,
+    handleEdit,
+    isLoading,
     submit,
     transactions,
     isOpenInitializeModal,

@@ -3,9 +3,7 @@ import {
   AccordionPanel,
   Box,
   Flex,
-  HStack,
   Icon,
-  IconButton,
   Menu,
   MenuButton,
   MenuItem,
@@ -14,26 +12,28 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import moment from "moment";
-import React from "react";
+import React, { useContext } from "react";
+import { SettingsContext } from ".";
 import { ReactComponent as ExpensesIcon } from "../../Assets/Icons/Expenses.svg";
 import { ReactComponent as IncomesIcon } from "../../Assets/Icons/Incomes.svg";
+import { ReactComponent as Options } from "../../Assets/Icons/Options.svg";
 import { NameWrap } from "../common/NameWrap";
 import { DepositType, FrequencyType } from "../common/Table/types";
 import { RecurrentTransactionInterface } from "./types";
-import { ReactComponent as Options } from "../../Assets/Icons/Options.svg";
 export interface RecurrentTransactionRowProps {
   data: RecurrentTransactionInterface;
 }
 export const RecurrentTransactionRow: React.FC<
   RecurrentTransactionRowProps
 > = ({ data }) => {
-  const { name, type, amount, date, frequency, isCanceled, description } = data;
-
+  const { name, type, amount, date, frequency, isCanceled, description, id } =
+    data;
+  const { handleDelete, handleEdit, handleToggle } =
+    useContext(SettingsContext);
   return (
     <>
       <AccordionButton w="100%">
         <Flex
-          //         display={["none", "flex"]}
           direction={["column", "row"]}
           w="100%"
           align={["center", "flex-start"]}
@@ -109,13 +109,26 @@ export const RecurrentTransactionRow: React.FC<
             <Icon as={Options} boxSize={8} />
           </MenuButton>
           <MenuList bg="white">
-            <MenuItem bg="white" _hover={{ bg: "purple.10" }}>
+            <MenuItem
+              bg="white"
+              _hover={{ bg: "purple.10" }}
+              onClick={() => handleEdit(id || "")}
+            >
               Edit
             </MenuItem>
-            <MenuItem bg="white" _hover={{ bg: "purple.10" }}>
+            <MenuItem
+              bg="white"
+              _hover={{ bg: "purple.10" }}
+              onClick={() => handleToggle(id || "")}
+            >
               {isCanceled ? "Activate" : "Deactivate"}
             </MenuItem>
-            <MenuItem color="red.500" bg="white" _hover={{ bg: "purple.10" }}>
+            <MenuItem
+              color="red.500"
+              bg="white"
+              _hover={{ bg: "purple.10" }}
+              onClick={() => handleDelete(id || "")}
+            >
               Delete
             </MenuItem>
           </MenuList>

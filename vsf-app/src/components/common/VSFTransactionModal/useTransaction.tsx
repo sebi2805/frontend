@@ -1,6 +1,8 @@
 import { useDisclosure } from "@chakra-ui/react";
 import moment from "moment";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { apiClient } from "../../../apiClient";
+import { ErrorContext } from "../../../App";
 import { isEmpty } from "../../../utils/helpers";
 import { ErrorTransactionForm } from "../../Home/types";
 import { TransactionInterface } from "../Table/types";
@@ -35,7 +37,7 @@ export interface useTransactionInterface {
   isLoading: boolean;
   isSubmitting: boolean;
   handleErrorChange: (error: Partial<ErrorTransactionForm>) => void;
-  isEdit: boolean;
+  idProps?: string;
   handleDataChange: (date: Partial<TransactionInterface>) => void;
 }
 
@@ -43,6 +45,7 @@ export const useTransaction = (
   submitProps: (data: TransactionInterface) => void,
   idProps?: string
 ): useTransactionInterface => {
+  const { createError } = useContext(ErrorContext);
   const [id, setId] = useState<string>("");
   const [data, setData] = useState<TransactionInterface>(defaultData);
   const [error, setError] = useState<ErrorTransactionForm>(defaultError);
@@ -83,6 +86,18 @@ export const useTransaction = (
       return false;
     }
   };
+  const initializeEdit = async () => {
+    setIsLoading(true);
+    await apiClient
+      .get(`/api/Transaction/${idProps}`)
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        createError(err.data);
+      });
+    setIsLoading(false);
+  };
   const handleDataChange = (newData: Partial<TransactionInterface>) => {
     setData({ ...data, ...newData });
   };
@@ -105,7 +120,13 @@ export const useTransaction = (
       reset();
     }
   };
-  const isEdit = idProps !== undefined;
+  useEffect(() => {
+    if (idProps) {
+      setId(idProps);
+      initializeEdit();
+    }
+  }, [idProps]);
+
   return {
     data,
     error,
@@ -116,7 +137,7 @@ export const useTransaction = (
     isLoading,
     isSubmitting,
     handleErrorChange,
-    isEdit,
+    idProps,
     handleDataChange,
   };
 };

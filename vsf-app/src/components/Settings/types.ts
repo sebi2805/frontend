@@ -5,10 +5,14 @@ import { UserModalInterface } from "./UserModal/useUserModal";
 export interface SettingsContextInterface {
   submitPassword: (oldPassword: string, newPassword: string) => Promise<void>;
   submitUser: (data: UserModalInterface) => void;
-  submitTransaction: () => void;
+  submitTransaction: (data: TransactionInterface) => void;
+  handleDelete: (id: string) => void;
+  handleEdit: (id: string) => void;
+  handleToggle: (id: string) => void;
   recurrentTransactions: RecurrentTransactionInterface[];
-  idRecurrentTransaction?: string;
+  id?: string;
   deleteUser: () => void;
+  isLoading: boolean;
 }
 
 export interface RecurrentTransactionInterface {

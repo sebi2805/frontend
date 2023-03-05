@@ -61,7 +61,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
     submit,
     isLoading,
     isSubmitting,
-    isEdit,
   } = useTransaction(submitProps, idProps);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,7 +131,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             zIndex={2}
           >
             <HStack>
-              <Box>{isEdit ? "Edit transaction" : "Add transaction"}</Box>
+              <Box>{idProps ? "Edit transaction" : "Add transaction"}</Box>
               <Spacer />
               <Icon
                 as={CloseIcon}
@@ -240,7 +239,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                   bg="white"
                 >
                   <VSFButton onClick={submit} isLoading={isSubmitting}>
-                    {isEdit ? "Update" : "Submit"}
+                    {idProps ? "Update" : "Submit"}
                   </VSFButton>
                 </Flex>
               </VStack>

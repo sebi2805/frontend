@@ -3,6 +3,7 @@ import {
   Accordion,
   AccordionItem,
   Box,
+  Flex,
   Heading,
   HStack,
   Spacer,
@@ -15,14 +16,16 @@ import { RecurrentTransactionRow } from "./RecurrentTransactionRow";
 import { ConfirmationModal } from "../common/ConfirmationModal";
 import { UserModal } from "./UserModal/UserModal";
 import { ChangePasswordModal } from "./ChangePassword/ChangePassword";
+import { CustomSpinner } from "../common/CustomSpinner";
 export const Settings: React.FC = () => {
   const {
     submitTransaction,
-    idRecurrentTransaction,
+    id,
     recurrentTransactions,
     deleteUser,
     submitUser,
     submitPassword,
+    isLoading,
   } = useContext(SettingsContext);
 
   return (
@@ -33,10 +36,7 @@ export const Settings: React.FC = () => {
           <Heading>Settings</Heading>
           <Spacer />
           <VStack>
-            <TransactionModal
-              submitProps={submitTransaction}
-              idProps={idRecurrentTransaction}
-            />
+            <TransactionModal submitProps={submitTransaction} idProps={id} />
             <ChangePasswordModal submitProps={submitPassword} />
             <UserModal submitProps={submitUser} />
             <ConfirmationModal
@@ -57,22 +57,28 @@ export const Settings: React.FC = () => {
         </HStack>
 
         <Box pl={4}> Your Recurrent Payments</Box>
-        <Accordion allowToggle w="100%">
-          {recurrentTransactions.map((transaction) => {
-            return (
-              <AccordionItem
-                key={transaction.id}
-                w="100%"
-                border="2px solid"
-                pb={[2, 0]}
-                bg={transaction.type === 10 ? "lightGreen.1" : "red.10"}
-                borderRadius={12}
-              >
-                <RecurrentTransactionRow data={transaction} />
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
+        <Flex w="100%" align={"center"}>
+          {isLoading ? (
+            <CustomSpinner />
+          ) : (
+            <Accordion allowToggle w="100%">
+              {recurrentTransactions.map((transaction) => {
+                return (
+                  <AccordionItem
+                    key={transaction.id}
+                    w="100%"
+                    border="2px solid"
+                    pb={[2, 0]}
+                    bg={transaction.type === 10 ? "lightGreen.1" : "red.10"}
+                    borderRadius={12}
+                  >
+                    <RecurrentTransactionRow data={transaction} />
+                  </AccordionItem>
+                );
+              })}
+            </Accordion>
+          )}
+        </Flex>
       </VStack>
     </>
   );
