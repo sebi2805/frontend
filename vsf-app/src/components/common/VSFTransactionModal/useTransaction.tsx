@@ -1,6 +1,7 @@
 import { useDisclosure } from "@chakra-ui/react";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { apiClient, authorise } from "../../../apiClient";
 import { ErrorContext } from "../../../App";
 import { isEmpty } from "../../../utils/helpers";
@@ -44,11 +45,16 @@ export interface useTransactionInterface {
 
 export const useTransaction = (
   submitProps: (data: TransactionInterface) => void,
-  idProps?: string
+  idProps?: string,
+  setIdProps?: (id: string) => void
 ): useTransactionInterface => {
   const { createError } = useContext(ErrorContext);
   const [id, setId] = useState<string>(idProps || "");
-  const [data, setData] = useState<TransactionInterface>(defaultData);
+  const location = useLocation();
+  const [data, setData] = useState<TransactionInterface>({
+    ...defaultData,
+    isRecurent: location.pathname.includes("setting"),
+  });
   const [error, setError] = useState<ErrorTransactionForm>(defaultError);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -112,6 +118,7 @@ export const useTransaction = (
     setError(defaultError);
     setId("");
     setIsSubmitting(false);
+    setIdProps?.("");
   };
 
   const { isOpen, onClose, onOpen } = useDisclosure();

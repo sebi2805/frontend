@@ -25,13 +25,15 @@ import { ReactComponent as Options } from "../../Assets/Icons/Options.svg";
 import { HomeContext } from ".";
 export interface TransactionRowProps {
   transaction: TransactionInterface;
+  handleDelete: (id: string) => void;
+  handleEdit: (id: string) => void;
 }
 
 export const TransactionRow: React.FC<TransactionRowProps> = ({
   transaction,
+  handleDelete,
+  handleEdit,
 }) => {
-  const { handleDelete, handleEdit } = useContext(HomeContext);
-
   return (
     <GridItem w="100%">
       <AccordionButton w="100%">
@@ -82,7 +84,7 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
             fontWeight={"bold"}
           >
             <Text textAlign={["end", "start"]} pr={2}>
-              {DepositType[transaction.type ?? 0]}
+              {DepositType[transaction.deposit ?? 0]}
             </Text>
           </NameWrap>
           <NameWrap

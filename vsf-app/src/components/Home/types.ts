@@ -9,6 +9,7 @@ export interface HomeContextInterface {
   onOpenInitializeModal: () => void;
   handleEdit: (id: string) => void;
   handleDelete: (id: string) => void;
+  setId: (id: string | undefined) => void;
   onCloseInitializeModal: () => void;
 }
 

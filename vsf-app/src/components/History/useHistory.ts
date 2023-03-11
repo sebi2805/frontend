@@ -1,24 +1,37 @@
-import { useDisclosure } from "@chakra-ui/react";
 import moment from "moment";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { apiClient, authorise } from "../../apiClient";
 import { ErrorContext } from "../../App";
 import { TransactionInterface } from "../common/Table/types";
-import { HomeContextInterface } from "./types";
+import { HistoryContextInterface } from "./types";
 
-export const useHome = (): HomeContextInterface => {
-  const {
-    isOpen: isOpenInitializeModal,
-    onClose: onCloseInitializeModal,
-    onOpen: onOpenInitializeModal,
-  } = useDisclosure();
-  const { createError, createToast } = useContext(ErrorContext);
-
+export const useHistory = (): HistoryContextInterface => {
+  const { createToast, createError } = useContext(ErrorContext);
   const [transactions, setTransactions] = useState<TransactionInterface[]>([]);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const [skip, setSkip] = useState<number>(0);
+  const take = useMemo(() => 15, []);
   const [id, setId] = useState<string | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(true);
+  const getData = async () => {
+    setIsLoadingMore(true);
 
+    setSkip(skip + 15);
+    await apiClient
+      .get(
+        `/api/UserHistory/get-history?skip=${skip}&take=${take}`,
+        authorise()
+      )
+      .then((res) => {
+        setTransactions([...transactions, ...res.data]);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        createError(err.response.data);
+        setIsLoading(false);
+      });
+    setIsLoadingMore(false);
+  };
   const submit = async (data: TransactionInterface) => {
     if (id) {
       await apiClient
@@ -53,7 +66,9 @@ export const useHome = (): HomeContextInterface => {
                 [...transactions, res.data].sort((a, b) =>
                   moment(a.date, "DD/MM/YYYY").diff(
                     moment(b.date, "DD/MM/YYYY")
-                  )
+                  ) >= 0
+                    ? -1
+                    : 1
                 )
               );
             })
@@ -61,20 +76,6 @@ export const useHome = (): HomeContextInterface => {
               createError(err.response.data);
             });
     }
-  };
-
-  const getData = async () => {
-    await apiClient
-      .get("/api/Transaction/get-last-month-transactions", authorise())
-      .then((res) => {
-        console.log(res.data);
-        setTransactions(res.data);
-        createToast("Welcome");
-      })
-      .catch((err) => {
-        createError(err.response.data);
-      });
-    setIsLoading(false);
   };
   const handleEdit = (id: string) => {
     setId(id);
@@ -93,17 +94,15 @@ export const useHome = (): HomeContextInterface => {
   useEffect(() => {
     getData();
   }, []);
-
   return {
-    id,
-    handleDelete,
-    handleEdit,
-    isLoading,
-    submit,
+    getData,
     transactions,
-    isOpenInitializeModal,
-    onCloseInitializeModal,
-    onOpenInitializeModal,
+    submit,
+    isLoadingMore,
+    id,
+    isLoading,
+    handleEdit,
+    handleDelete,
     setId,
   };
 };

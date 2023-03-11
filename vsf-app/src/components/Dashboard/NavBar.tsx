@@ -36,12 +36,6 @@ export const NavBar: React.FC = () => {
 
   return (
     <VStack w="100%" spacing={0}>
-      <HStack h={6} bg="red" w="100%" justify={"center"}>
-        <Box color="white">
-          05 March 2023 - Update. Added settings page. Added ability to
-          update/delete. Unstable PLatform until further testing
-        </Box>
-      </HStack>
       <HStack
         w="100%"
         h={NavBarHeight}

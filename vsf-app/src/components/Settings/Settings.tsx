@@ -17,6 +17,7 @@ import { ConfirmationModal } from "../common/ConfirmationModal";
 import { UserModal } from "./UserModal/UserModal";
 import { ChangePasswordModal } from "./ChangePassword/ChangePassword";
 import { CustomSpinner } from "../common/CustomSpinner";
+import { InfoOutlineIcon } from "@chakra-ui/icons";
 export const Settings: React.FC = () => {
   const {
     submitTransaction,
@@ -55,34 +56,45 @@ export const Settings: React.FC = () => {
             </ConfirmationModal>
           </VStack>
         </HStack>
-
-        <Box pl={4} fontSize={20} fontWeight="bold">
-          {" "}
-          Your Recurrent Payments
-        </Box>
-        <Flex w="100%" align={"center"}>
-          {isLoading ? (
-            <CustomSpinner />
+        <>
+          {recurrentTransactions.length === 0 ? (
+            <Heading w="100%" textAlign={"center"}>
+              <InfoOutlineIcon /> You have no recurrent transactions
+            </Heading>
           ) : (
-            <Accordion allowToggle w="100%">
-              {recurrentTransactions.map((transaction) => {
-                return (
-                  <AccordionItem
-                    key={transaction.id}
-                    w="100%"
-                    border="2px solid"
-                    pb={[2, 0]}
-                    mb={4}
-                    bg={transaction.type === 10 ? "lightGreen.1" : "red.10"}
-                    borderRadius={12}
-                  >
-                    <RecurrentTransactionRow data={transaction} />
-                  </AccordionItem>
-                );
-              })}
-            </Accordion>
+            <>
+              <Box pl={4} fontSize={20} fontWeight="bold">
+                {" "}
+                Your Recurrent Transactions
+              </Box>
+              <Flex w="100%" align={"center"}>
+                {isLoading ? (
+                  <CustomSpinner />
+                ) : (
+                  <Accordion allowToggle w="100%">
+                    {recurrentTransactions.map((transaction) => {
+                      return (
+                        <AccordionItem
+                          key={transaction.id}
+                          w="100%"
+                          border="2px solid"
+                          pb={[2, 0]}
+                          mb={4}
+                          bg={
+                            transaction.type === 10 ? "lightGreen.1" : "red.10"
+                          }
+                          borderRadius={12}
+                        >
+                          <RecurrentTransactionRow data={transaction} />
+                        </AccordionItem>
+                      );
+                    })}
+                  </Accordion>
+                )}
+              </Flex>
+            </>
           )}
-        </Flex>
+        </>
       </VStack>
     </>
   );

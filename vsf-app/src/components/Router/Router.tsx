@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import { DashboardWrapper } from "../Dashboard/DashboardWrapper";
 import { Default } from "../DefaultPages/Default";
 import { NotFoundPage } from "../DefaultPages/NotFoundPage";
+import { HistoryComponent } from "../History";
 import { HomeComponent } from "../Home";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
@@ -27,6 +28,16 @@ export const Router: React.FC = () => {
           <DashboardWrapper>
             <ProtectedRoute>
               <HomeComponent />
+            </ProtectedRoute>
+          </DashboardWrapper>
+        }
+      />
+      <Route
+        path={"/history"}
+        element={
+          <DashboardWrapper>
+            <ProtectedRoute>
+              <HistoryComponent />
             </ProtectedRoute>
           </DashboardWrapper>
         }

@@ -44,11 +44,13 @@ export const TransactionFormId: FormIdDictionary = {
 export interface TransactionModalProps {
   submitProps: (data: TransactionInterface) => void;
   idProps?: string;
+  setIdProps?: (id: string) => void;
 }
 
 export const TransactionModal: React.FC<TransactionModalProps> = ({
   submitProps,
   idProps,
+  setIdProps,
 }) => {
   const {
     handleDataChange,
@@ -62,7 +64,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
     isLoading,
     isSubmitting,
     reset,
-  } = useTransaction(submitProps, idProps);
+  } = useTransaction(submitProps, idProps, setIdProps);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleDataChange({ name: e.target.value });
@@ -167,6 +169,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                         handleErrorChange({ frequency: "" });
                         handleDataChange({ isRecurent: e.target.checked });
                       }}
+                      isDisabled={!!idProps}
                       isChecked={data.isRecurent}
                       size="lg"
                       pl={4}
