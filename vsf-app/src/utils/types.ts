@@ -6,7 +6,7 @@ export interface UserContextinterface {
   loginJWT: (clientJWT: string) => Promise<void>;
   logout: () => Promise<void>;
 }
-export type UserRole = "admin" | "user";
+
 export interface UserInterface {
   id: string;
   username: string;
@@ -15,5 +15,7 @@ export interface UserInterface {
   lastName: string;
   bank: number;
   cash: number;
-  userRole: UserRole;
+  isActive?: boolean;
+  userRole: number;
+  createdAt?: string;
 }

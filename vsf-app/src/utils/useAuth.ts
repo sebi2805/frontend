@@ -17,14 +17,14 @@ export const useAuth = (): UserContextinterface => {
         setUser(res.data);
         localStorage.setItem("clientJWT", res.data.clientJWT);
         createToast("Login successful");
-        setTimeout(() => {
-          navigate("/home");
-        }, 1000);
+        if (res.data.userRole === 10) navigate("/users");
+        else navigate("/home");
       })
       .catch((err) => {
         createError(err.response.data);
       });
   };
+
   useEffect(() => {
     if (localStorage.getItem("clientJWT"))
       loginJWT(localStorage.getItem("clientJWT") || "");

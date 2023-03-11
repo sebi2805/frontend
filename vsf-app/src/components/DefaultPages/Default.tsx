@@ -10,7 +10,8 @@ export const Default: React.FC = () => {
   useEffect(() => {
     if (location.pathname === "/")
       if (user) {
-        navigate("/home");
+        if (user.userRole === 10) navigate("/users");
+        else navigate("/home");
       } else {
         navigate("/login");
       }

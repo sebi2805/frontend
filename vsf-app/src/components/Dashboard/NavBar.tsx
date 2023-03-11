@@ -49,12 +49,19 @@ export const NavBar: React.FC = () => {
         </Box>
         <Box display={["none", "flex"]} w={4}></Box>
         {user ? (
-          <>
-            <NavBarItem path="/home" text="Home" />
-            <NavBarItem path="/history" text="History" />
-            <NavBarItem path="/statistics" text="Statistics" />
-            <NavBarItem path="/settings" text="Settings" />
-          </>
+          user.userRole === 20 ? (
+            <>
+              <NavBarItem path="/home" text="Home" />
+              <NavBarItem path="/history" text="History" />
+              <NavBarItem path="/statistics" text="Statistics" />
+              <NavBarItem path="/settings" text="Settings" />
+            </>
+          ) : (
+            <>
+              {" "}
+              <NavBarItem path="/users" text="Users" />
+            </>
+          )
         ) : (
           <>
             <NavBarItem path="/login" text="Login" />

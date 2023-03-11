@@ -8,6 +8,7 @@ import { HomeComponent } from "../Home";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 import { SettingsComponent } from "../Settings";
+import { UsersComponent } from "../Users";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 export const Router: React.FC = () => {
@@ -38,6 +39,16 @@ export const Router: React.FC = () => {
           <DashboardWrapper>
             <ProtectedRoute>
               <HistoryComponent />
+            </ProtectedRoute>
+          </DashboardWrapper>
+        }
+      />
+      <Route
+        path={"/users"}
+        element={
+          <DashboardWrapper>
+            <ProtectedRoute>
+              <UsersComponent />
             </ProtectedRoute>
           </DashboardWrapper>
         }

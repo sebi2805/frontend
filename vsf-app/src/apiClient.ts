@@ -25,10 +25,9 @@ const errorInterceptor = (val: AxiosInstance) => {
       return res;
     },
     (err) => {
-      console.log(err);
       if (err.response?.status === 401 || err.response?.status === 403) {
-        localStorage.removeItem("accesToken");
-        localStorage.setItem("USER", "USER_NOT_FOUND");
+        localStorage.removeItem("clientJWT");
+
         window.location.reload();
       } else {
         return Promise.reject(err);

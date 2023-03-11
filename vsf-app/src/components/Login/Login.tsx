@@ -46,7 +46,8 @@ export const Login: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/home");
+      if (user.userRole === 10) navigate("/users");
+      else navigate("/home");
     }
   }, []);
   return (
