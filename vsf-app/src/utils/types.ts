@@ -18,4 +18,5 @@ export interface UserInterface {
   isActive?: boolean;
   userRole: number;
   createdAt?: string;
+  lastLogin?: string;
 }

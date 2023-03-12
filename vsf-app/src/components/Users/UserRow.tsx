@@ -81,14 +81,15 @@ export const UserRow: React.FC<UserRowInterface> = ({
               {user.firstName}
             </Text>
           </NameWrap>
+
           <NameWrap
             direction={["row", "column"]}
-            title="Has Login"
+            title="Last Login"
             w="80%"
             fontWeight={"bold"}
           >
             <Text textAlign={["end", "start"]} pr={2}>
-              {user.hasLogin ? "Yes" : "No"}
+              {moment(user.lastLogin).format("DD/MM/YYYY")}
             </Text>
           </NameWrap>
           <NameWrap

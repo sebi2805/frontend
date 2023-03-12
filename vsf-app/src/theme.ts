@@ -30,6 +30,10 @@ export const theme = extendTheme({
         color: "purple.500",
         fontFamily: "night",
       },
+      "::selection": {
+        background: "purple.400",
+        color: "white",
+      },
 
       "*": {
         ".slick-prev:before,.slick-next:before": {
